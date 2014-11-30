@@ -31,6 +31,27 @@ ScrewThreadDiameter = 5.55;
 // share of the wall thickness for the screw holes
 ScrewholeThickness = 0.75;
 
+/* [Cable Shafts] */
+topCable1Width = 0;
+topCable1Height = 0;
+topCable1Angle = 0;
+topCable2Height = 0;
+topCable2Width = 0;
+topCable2Angle = 15;
+topCable3Width = 0;
+topCable3Height = 0;
+topCable3Angle = -15;
+
+bottomCable1Width = 0;
+bottomCable1Height = 0;
+bottomCable1Angle = 0;
+bottomCable2Width = 0;
+bottomCable2Height = 0;
+bottomCable2Angle = 15;
+bottomCable3Width = 0;
+bottomCable3Height = 0;
+bottomCable3Angle = -15;
+
 /* [Hidden] */
 $fn=Resolution;
 
@@ -43,7 +64,27 @@ if (part == "Complete Lockholder Set") {
                 nutSizeInner = ScrewThreadDiameter,
                 thickness = Thickness,
                 offset = Offset,
-                screwOffsetShare = ScrewholeThickness
+                screwOffsetShare = ScrewholeThickness,
+                
+                topCable1Width = topCable1Width,
+				topCable1Height = topCable1Height,
+				topCable1Angle = topCable1Angle,
+				topCable2Width = topCable2Width,
+				topCable2Height = topCable2Height,
+				topCable2Angle = topCable2Angle,
+				topCable3Width = topCable3Width,
+				topCable3Height = topCable3Height,
+				topCable3Angle = topCable3Angle,
+
+                bottomCable1Width = bottomCable1Width,
+				bottomCable1Height = bottomCable1Height,
+				bottomCable1Angle = bottomCable1Angle,
+				bottomCable2Width = bottomCable2Width,
+				bottomCable2Height = bottomCable2Height,
+				bottomCable2Angle = bottomCable2Angle,
+				bottomCable3Width = bottomCable3Width,
+				bottomCable3Height = bottomCable3Height,
+				bottomCable3Angle = bottomCable3Angle
         );
 } else if (part == "Single Lockholder Set") {
         lockHolderSet(
@@ -54,7 +95,27 @@ if (part == "Complete Lockholder Set") {
                 nutSizeInner = ScrewThreadDiameter,
                 thickness = Thickness,
                 offset = Offset,
-                screwOffsetShare = ScrewholeThickness
+                screwOffsetShare = ScrewholeThickness,
+                
+                topCable1Width = topCable1Width,
+				topCable1Height = topCable1Height,
+				topCable1Angle = topCable1Angle,
+				topCable2Width = topCable2Width,
+				topCable2Height = topCable2Height,
+				topCable2Angle = topCable2Angle,
+				topCable3Width = topCable3Width,
+				topCable3Height = topCable3Height,
+				topCable3Angle = topCable3Angle,
+
+                bottomCable1Width = bottomCable1Width,
+				bottomCable1Height = bottomCable1Height,
+				bottomCable1Angle = bottomCable1Angle,
+				bottomCable2Width = bottomCable2Width,
+				bottomCable2Height = bottomCable2Height,
+				bottomCable2Angle = bottomCable2Angle,
+				bottomCable3Width = bottomCable3Width,
+				bottomCable3Height = bottomCable3Height,
+				bottomCable3Angle = bottomCable3Angle
         );
 } else if (part == "Top Part") {
         topPart(
@@ -64,7 +125,17 @@ if (part == "Complete Lockholder Set") {
                 nutSizeInner = ScrewThreadDiameter,
                 thickness = Thickness,
                 offset = Offset,
-                screwOffsetShare = ScrewholeThickness
+                screwOffsetShare = ScrewholeThickness,
+                
+                topCable1Width = topCable1Width,
+				topCable1Height = topCable1Height,
+				topCable1Angle = topCable1Angle,
+				topCable2Width = topCable2Width,
+				topCable2Height = topCable2Height,
+				topCable2Angle = topCable2Angle,
+				topCable3Width = topCable3Width,
+				topCable3Height = topCable3Height,
+				topCable3Angle = topCable3Angle
         );
 } else if (part == "Bottom Part") {
         bottomPart(
@@ -75,7 +146,18 @@ if (part == "Complete Lockholder Set") {
                 nutSizeInner = ScrewThreadDiameter,
                 thickness = Thickness,
                 offset = Offset,
-                screwOffsetShare = ScrewholeThickness
+                screwOffsetShare = ScrewholeThickness,
+
+                bottomCable1Width = bottomCable1Width,
+				bottomCable1Height = bottomCable1Height,
+				bottomCable1Angle = bottomCable1Angle,
+				bottomCable2Width = bottomCable2Width,
+				bottomCable2Height = bottomCable2Height,
+				bottomCable2Angle = bottomCable2Angle,
+				bottomCable3Width = bottomCable3Width,
+				bottomCable3Height = bottomCable3Height,
+				bottomCable3Angle = bottomCable3Angle
+
         );
 } else {
         completeLockHolderSet(
@@ -86,11 +168,31 @@ if (part == "Complete Lockholder Set") {
                 nutSizeInner = ScrewThreadDiameter,
                 thickness = Thickness,
                 offset = Offset,
-                screwOffsetShare = ScrewholeThickness
+                screwOffsetShare = ScrewholeThickness,
+                
+                topCable1Width = topCable1Width,
+				topCable1Height = topCable1Height,
+				topCable1Angle = topCable1Angle,
+				topCable2Width = topCable2Width,
+				topCable2Height = topCable2Height,
+				topCable2Angle = topCable2Angle,
+				topCable3Width = topCable3Width,
+				topCable3Height = topCable3Height,
+				topCable3Angle = topCable3Angle,
+
+                bottomCable1Width = bottomCable1Width,
+				bottomCable1Height = bottomCable1Height,
+				bottomCable1Angle = bottomCable1Angle,
+				bottomCable2Width = bottomCable2Width,
+				bottomCable2Height = bottomCable2Height,
+				bottomCable2Angle = bottomCable2Angle,
+				bottomCable3Width = bottomCable3Width,
+				bottomCable3Height = bottomCable3Height,
+				bottomCable3Angle = bottomCable3Angle
         );
 }
 
-// lockholder v 1.1
+// lockholder v 2.2
 
 // Functions
 // - Set of Top Part and Bottom Part
@@ -103,19 +205,39 @@ module lockHolderSet
 	nutSizeInner = 6,
 	thickness = 5,
 	offset = 2,
-	screwOffsetShare = 0.75
+	screwOffsetShare = 0.75,
+	
+	topCable1Width = 0,
+	topCable1Height = 0,
+	topCable1Angle = 0,
+	topCable2Width = 0,
+	topCable2Height = 0,
+	topCable2Angle = 15,
+	topCable3Width = 0,
+	topCable3Height = 0,
+	topCable3Angle = -15,
+
+	bottomCable1Width = 0,
+	bottomCable1Height = 0,
+	bottomCable1Angle = 0,
+	bottomCable2Width = 0,
+	bottomCable2Height = 0,
+	bottomCable2Angle = 15,
+	bottomCable3Width = 0,
+	bottomCable3Height = 0,
+	bottomCable3Angle = -15
 )
 {
-	lengthTopTube = diameterLock + (2 * nutSizeOuter) + (3 * thickness);
-	screwBarWidth = nutSizeOuter + (thickness / 2);
+	lengthTopTube = lengthTopTube(diameterLock, nutSizeOuter, thickness);
+	screwBarWidth = screwBarWidth(nutSizeOuter, thickness);
 
 	translate(v = [(diameterTopTube / 2) + screwBarWidth + (1.5 * thickness), 0, 0]) {
-		topPart(diameterTopTube, diameterLock, nutSizeOuter, nutSizeInner, thickness, offset, screwOffsetShare);
+		topPart(diameterTopTube, diameterLock, nutSizeOuter, nutSizeInner, thickness, offset, screwOffsetShare, topCable1Width, topCable1Height, topCable1Angle, topCable2Width, topCable2Height, topCable2Angle, topCable3Width, topCable3Height, topCable3Angle);
 	}
 
 	translate(v = [(-1) * ((diameterTopTube / 2) + screwBarWidth + (1.5 * thickness)), 0, 0]) {
 		rotate(a = [0, 0, 180]) {
-			bottomPart(diameterTopTube, lengthLock, diameterLock, nutSizeOuter, nutSizeInner, thickness, offset, screwOffsetShare);
+			bottomPart(diameterTopTube, lengthLock, diameterLock, nutSizeOuter, nutSizeInner, thickness, offset, screwOffsetShare, bottomCable1Width, bottomCable1Height, bottomCable1Angle, bottomCable2Width, bottomCable2Height, bottomCable2Angle, bottomCable3Width, bottomCable3Height, bottomCable3Angle);
 		}
 	}
 }
@@ -130,21 +252,42 @@ module completeLockHolderSet
 	nutSizeInner = 6,
 	thickness = 5,
 	offset = 2,
-	screwOffsetShare = 0.75
+	screwOffsetShare = 0.75,
+	
+	topCable1Width = 0,
+	topCable1Height = 0,
+	topCable1Angle = 0,
+	topCable2Width = 0,
+	topCable2Height = 0,
+	topCable2Angle = 15,
+	topCable3Width = 0,
+	topCable3Height = 0,
+	topCable3Angle = -15,
+
+	bottomCable1Width = 0,
+	bottomCable1Height = 0,
+	bottomCable1Angle = 0,
+	bottomCable2Width = 0,
+	bottomCable2Height = 0,
+	bottomCable2Angle = 15,
+	bottomCable3Width = 0,
+	bottomCable3Height = 0,
+	bottomCable3Angle = -15
 )
 {
-	lengthTopTube = diameterLock + (2 * nutSizeOuter) + (3 * thickness);
-	screwBarWidth = nutSizeOuter + (thickness / 2);
+	lengthTopTube = lengthTopTube(diameterLock, nutSizeOuter, thickness);
+	screwBarWidth = screwBarWidth(nutSizeOuter, thickness);
 
 	translate(v = [0, (lengthTopTube + thickness) / 2, 0]) {
-		lockHolderSet(diameterTopTube, lengthLock, diameterLock, nutSizeOuter, nutSizeInner, thickness, offset, screwOffsetShare);
+		lockHolderSet(diameterTopTube, lengthLock, diameterLock, nutSizeOuter, nutSizeInner, thickness, offset, screwOffsetShare, topCable1Width,	topCable1Height, topCable1Angle, topCable2Width, topCable2Height, topCable2Angle, topCable3Width, topCable3Height, topCable3Angle,	bottomCable1Width, bottomCable1Height, bottomCable1Angle, bottomCable2Width, bottomCable2Height, bottomCable2Angle, bottomCable3Width, bottomCable3Height, bottomCable3Angle);
 	}
 
 	translate(v = [0, (-1) * ((lengthTopTube + thickness) / 2), 0]) {
-		lockHolderSet(diameterTopTube, lengthLock, diameterLock, nutSizeOuter, nutSizeInner, thickness, offset, screwOffsetShare);
+		lockHolderSet(diameterTopTube, lengthLock, diameterLock, nutSizeOuter, nutSizeInner, thickness, offset, screwOffsetShare, topCable1Width,	topCable1Height, topCable1Angle, topCable2Width, topCable2Height, topCable2Angle, topCable3Width, topCable3Height, topCable3Angle,	bottomCable1Width, bottomCable1Height, bottomCable1Angle, bottomCable2Width, bottomCable2Height, bottomCable2Angle, bottomCable3Width, bottomCable3Height, bottomCable3Angle);
 	}
 }
 
+// Object with cables
 // - Top Part
 module topPart
 (
@@ -154,11 +297,136 @@ module topPart
 	nutSizeInner = 6,
 	thickness = 5,
 	offset = 2,
-	screwOffsetShare = 0.75
+	screwOffsetShare = 0.75,
+	
+	cable1Width = 0,
+	cable1Height = 0,
+	cable1Angle = 0,
+	cable2Width = 0,
+	cable2Height = 0,
+	cable2Angle = 15,
+	cable3Width = 0,
+	cable3Height = 0,
+	cable3Angle = -15
 )
 {
-	lengthTopTube = diameterLock + (2 * nutSizeOuter) + (3 * thickness);
-	screwBarWidth = nutSizeOuter + (thickness / 2);
+	lengthTopTube = lengthTopTube(diameterLock, nutSizeOuter, thickness);
+	difference() {
+		union() {
+			topPartPlain
+			(
+				diameterTopTube,
+				diameterLock,
+				nutSizeOuter,
+				nutSizeInner,
+				thickness,
+				offset,
+				screwOffsetShare
+			);
+			union() {
+				if (cable1Height > 0 && cable1Width > 0) {
+					cablePart(diameterTopTube, lengthTopTube, (cable1Width + (2 * thickness)), (cable1Height + thickness), cable1Angle);
+				}
+				if (cable2Height > 0 && cable2Width > 0) {
+					cablePart(diameterTopTube, lengthTopTube, (cable2Width + (2 * thickness)), (cable2Height + thickness), cable2Angle);
+				}
+				if (cable3Height > 0 && cable3Width > 0) {
+					cablePart(diameterTopTube, lengthTopTube, (cable3Width + (2 * thickness)), (cable3Height + thickness), cable3Angle);
+				}
+			}
+		};
+		union() {
+			if (cable1Height > 0 && cable1Width > 0) {
+				cablePart(diameterTopTube, (lengthTopTube + 2), cable1Width, cable1Height, cable1Angle, true);
+			}
+			if (cable2Height > 0 && cable2Width > 0) {
+				cablePart(diameterTopTube, (lengthTopTube + 2), cable2Width, cable2Height, cable2Angle, true);
+			}
+			if (cable3Height > 0 && cable3Width > 0) {
+				cablePart(diameterTopTube, (lengthTopTube + 2), cable3Width, cable3Height, cable3Angle, true);
+			}
+		}
+	};
+}
+
+// - Bottom Part
+module bottomPart
+(
+	diameterTopTube = 30,
+	lengthLock = 50,
+	diameterLock = 15,
+	nutSizeOuter = 10,
+	nutSizeInner = 6,
+	thickness = 5,
+	offset = 2,
+	screwOffsetShare = 0.75,
+	
+	cable1Width = 0,
+	cable1Height = 0,
+	cable1Angle = 0,
+	cable2Width = 0,
+	cable2Height = 0,
+	cable2Angle = 20,
+	cable3Width = 0,
+	cable3Height = 0,
+	cable3Angle = -15
+)
+{
+	lengthTopTube = lengthTopTube(diameterLock, nutSizeOuter, thickness);
+	difference() {
+		union() {
+			bottomPartPlain
+			(
+				diameterTopTube,
+				lengthLock,
+				diameterLock,
+				nutSizeOuter,
+				nutSizeInner,
+				thickness,
+				offset,
+				screwOffsetShare
+			);
+			union() {
+				if (cable1Height > 0 && cable1Width > 0) {
+					cablePart(diameterTopTube, lengthTopTube, (cable1Width + (2 * thickness)), (cable1Height + thickness), cable1Angle);
+				}
+				if (cable2Height > 0 && cable2Width > 0) {
+					cablePart(diameterTopTube, lengthTopTube, (cable2Width + (2 * thickness)), (cable2Height + thickness), cable2Angle);
+				}
+				if (cable3Height > 0 && cable3Width > 0) {
+					cablePart(diameterTopTube, lengthTopTube, (cable3Width + (2 * thickness)), (cable3Height + thickness), cable3Angle);
+				}
+			}
+		};
+		union() {
+			if (cable1Height > 0 && cable1Width > 0) {
+				cablePart(diameterTopTube, (lengthTopTube + 2), cable1Width, cable1Height, cable1Angle, true);
+			}
+			if (cable2Height > 0 && cable2Width > 0) {
+				cablePart(diameterTopTube, (lengthTopTube + 2), cable2Width, cable2Height, cable2Angle, true);
+			}
+			if (cable3Height > 0 && cable3Width > 0) {
+				cablePart(diameterTopTube, (lengthTopTube + 2), cable3Width, cable3Height, cable3Angle, true);
+			}
+		}
+	};
+}
+
+// Plain Objects (without cables)
+// - Top Part
+module topPartPlain
+(
+	diameterTopTube,
+	diameterLock,
+	nutSizeOuter,
+	nutSizeInner,
+	thickness,
+	offset,
+	screwOffsetShare
+)
+{
+	lengthTopTube = lengthTopTube(diameterLock, nutSizeOuter, thickness);
+	screwBarWidth = screwBarWidth(nutSizeOuter, thickness);
 
 	translate(v = [0, lengthTopTube / 2, 0]) {
 		topPart1(lengthTopTube, diameterTopTube, diameterLock, screwBarWidth, nutSizeOuter, nutSizeInner, thickness, offset, screwOffsetShare);
@@ -172,20 +440,20 @@ module topPart
 }
 
 // - Bottom Part
-module bottomPart
+module bottomPartPlain
 (
-	diameterTopTube = 30,
-	lengthLock = 50,
-	diameterLock = 15,
-	nutSizeOuter = 10,
-	nutSizeInner = 6,
-	thickness = 5,
-	offset = 2,
-	screwOffsetShare = 0.75
+	diameterTopTube,
+	lengthLock,
+	diameterLock,
+	nutSizeOuter,
+	nutSizeInner,
+	thickness,
+	offset,
+	screwOffsetShare
 )
 {
-	lengthTopTube = diameterLock + (2 * nutSizeOuter) + (3 * thickness);
-	screwBarWidth = nutSizeOuter + (thickness / 2);
+	lengthTopTube = lengthTopTube(diameterLock, nutSizeOuter, thickness);
+	screwBarWidth = screwBarWidth(nutSizeOuter, thickness);
 
 	translate(v = [0, lengthTopTube / 2, 0]) {
 		difference() {
@@ -516,6 +784,28 @@ module carveRing(diameter, thickness) {
 	}
 }
 
+module cablePart(diameterTopTube, lengthTopTube, width, height, angle, cut=false) {
+	finalHeight = (diameterTopTube / 2) + height;
+	rotate(a = [90, angle, 0]) {
+		translate(v = [0, 0, -(lengthTopTube / 2)]) {
+			difference() {
+				union() {
+					translate(v = [-(width / 2), 0, 0]) {
+						cube([width, (finalHeight - width / 2), lengthTopTube]);				
+					}
+					translate(v = [0, (finalHeight - width / 2), 0]) {
+						cylinder(h = lengthTopTube, r = (width / 2));
+					}
+				}
+				if (cut == false) {
+					translate(v = [0, 0, -1]) {
+						cylinder(h = (lengthTopTube + 2), r = (diameterTopTube / 2));					}
+				}
+			}
+		}
+	}
+}
+
 module hexagon(size, height) {
 	// http://svn.clifford.at/openscad/trunk/libraries/shapes.scad
 	/*
@@ -540,3 +830,8 @@ module hexagon(size, height) {
 	boxWidth = size/1.75;
 	for (r = [-60, 0, 60]) rotate([0,0,r]) cube([boxWidth, size, height], true);
 }
+
+// Internal functions
+function lengthTopTube(diameterLock, nutSizeOuter, thickness) = diameterLock + (2 * nutSizeOuter) + (3 * thickness);
+
+function screwBarWidth(nutSizeOuter, thickness) = nutSizeOuter + (thickness / 2);
