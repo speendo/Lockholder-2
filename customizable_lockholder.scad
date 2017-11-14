@@ -1,6 +1,6 @@
 /* [General] */
 
-part="Complete Lockholder Set"; // [Complete Lockholder Set, Single Lockholder Set, Top Part, Bottom Part]
+part="Bottom Part"; // [Complete Lockholder Set, Single Lockholder Set, Top Part, Bottom Part]
 
 // wall thickness
 Thickness = 4;
@@ -42,8 +42,8 @@ topCable3Width = 0;
 topCable3Height = 0;
 topCable3Angle = -15;
 
-bottomCable1Width = 0;
-bottomCable1Height = 0;
+bottomCable1Width = 5;
+bottomCable1Height = 5;
 bottomCable1Angle = 0;
 bottomCable2Width = 0;
 bottomCable2Height = 0;
@@ -505,8 +505,18 @@ module tube(height, diameter, thickness) {
 module halfTube(height, diameter, thickness, offset) {
 	difference() {
 		tube(height, diameter, thickness);
-		translate(v = [((-1) * (diameter + (2 * thickness))) / 2, (-1) * ((diameter / 2) + thickness) - 1, -1]) {
-			cube([diameter + (2 * thickness), (diameter / 2) + thickness +1 + (offset / 2), height + 2]);
+		union() {
+			translate(v = [((-1) * (diameter + (2 * thickness))) / 2, (-1) * ((diameter / 2) + thickness) - 1, -1]) {
+				cube([diameter + (2 * thickness), (diameter / 2) + thickness +1 + (offset / 2), height + 2]);
+			}
+			translate(v = [0, 0, thickness]) {
+				rotate(a = [180,0,0]) {
+					carveRoundTube(diameter - 2 * thickness, 2 * thickness);
+				}
+			}
+			translate(v = [0, 0, height - thickness]) {
+				carveRoundTube(diameter - 2 * thickness, 2 * thickness);
+			}
 		}
 	}
 }
@@ -514,25 +524,67 @@ module halfTube(height, diameter, thickness, offset) {
 module screwBar(nutSizeOuter, lengthTopTube, diameterTopTube, thickness, offset, screwOffsetShare) {
 	difference() {
 		union() {
-			hull() {
-				translate(v = [((diameterTopTube + nutSizeOuter) / 2) + thickness, thickness + (offset / 2), (nutSizeOuter + thickness) / 2]) {
-					rotate(a = [90, 0, 0]) {
-						cylinder(r = ((nutSizeOuter + thickness) / 2), h = thickness);
+			difference() {
+				hull() {
+					translate(v = [((diameterTopTube + nutSizeOuter) / 2) + thickness, thickness + (offset / 2), (nutSizeOuter + thickness) / 2]) {
+						rotate(a = [90, 0, 0]) {
+							cylinder(r = ((nutSizeOuter + thickness) / 2), h = thickness);
+						}
+					}
+					translate(v = [(-1) * (((diameterTopTube + nutSizeOuter) / 2) + thickness), thickness + (offset / 2), (nutSizeOuter + thickness) / 2]) {
+						rotate(a = [90, 0, 0]) {
+							cylinder(r = (nutSizeOuter + thickness) / 2, h = thickness);
+						}
+					}
+					translate(v = [((diameterTopTube + nutSizeOuter) / 2) + thickness, thickness + (offset / 2), lengthTopTube - ((nutSizeOuter + thickness) / 2) ]) {
+						rotate(a = [90, 0, 0]) {
+							cylinder(r = ((nutSizeOuter + thickness) / 2), h = thickness);
+						}
+					}
+					translate(v = [(-1) * (((diameterTopTube + nutSizeOuter) / 2) + thickness), thickness + (offset / 2), lengthTopTube - ((nutSizeOuter + thickness) / 2)]) {
+						rotate(a = [90, 0, 0]) {
+							cylinder(r = ((nutSizeOuter + thickness) / 2), h = thickness);
+						}
 					}
 				}
-				translate(v = [(-1) * (((diameterTopTube + nutSizeOuter) / 2) + thickness), thickness + (offset / 2), (nutSizeOuter + thickness) / 2]) {
-					rotate(a = [90, 0, 0]) {
-						cylinder(r = (nutSizeOuter + thickness) / 2, h = thickness);
+				translate(v = [((diameterTopTube + thickness) / 2) + nutSizeOuter, 0, 0]) {
+					difference() {
+						cube([thickness + 1, thickness + 1, lengthTopTube]);
+						translate(v = [0, 0, -1]) {
+							cylinder(r = thickness, h = lengthTopTube + 2);
+						}
 					}
 				}
-				translate(v = [((diameterTopTube + nutSizeOuter) / 2) + thickness, thickness + (offset / 2), lengthTopTube - ((nutSizeOuter + thickness) / 2) ]) {
-					rotate(a = [90, 0, 0]) {
-						cylinder(r = ((nutSizeOuter + thickness) / 2), h = thickness);
+				translate(v = [(-1)*((diameterTopTube + thickness) / 2) - nutSizeOuter, 0, 0]) {
+					difference() {
+						translate(v = [(-1)*(thickness + 1), 0, 0]) {
+							cube([thickness + 1, thickness + 1, lengthTopTube]);
+						}
+						translate(v = [0, 0, -1]) {
+							cylinder(r = thickness, h = lengthTopTube + 2);
+						}
 					}
 				}
-				translate(v = [(-1) * (((diameterTopTube + nutSizeOuter) / 2) + thickness), thickness + (offset / 2), lengthTopTube - ((nutSizeOuter + thickness) / 2)]) {
-					rotate(a = [90, 0, 0]) {
-						cylinder(r = ((nutSizeOuter + thickness) / 2), h = thickness);
+				translate(v = [(-1) * ((diameterTopTube / 2) + 1.5 * thickness + nutSizeOuter), 0, lengthTopTube - thickness]) {
+					difference() {
+						cube([diameterTopTube + 2 * nutSizeOuter + 3 * thickness, thickness + 1, thickness + 1]);
+						rotate(a = [0, 90, 0]) {
+							translate(v = [0, 0, -1]) {
+								cylinder(r = thickness, h = diameterTopTube + 2 * nutSizeOuter + 3 * thickness + 2);
+							}
+						}
+					}
+				}
+				translate(v = [(-1) * ((diameterTopTube / 2) + 1.5 * thickness + nutSizeOuter), 0, thickness]) {
+					difference() {
+						translate(v = [0, 0, (-1)*(thickness + 1)]) {
+							cube([diameterTopTube + 2 * nutSizeOuter + 3 * thickness, thickness + 1, thickness + 1]);
+						}
+						rotate(a = [0, 90, 0]) {
+							translate(v = [0, 0, -1]) {
+								cylinder(r = thickness, h = diameterTopTube + 2 * nutSizeOuter + 3 * thickness + 2);
+							}
+						}
 					}
 				}
 			}
@@ -554,7 +606,7 @@ module tubeWithBar(lengthTopTube, diameterTopTube, nutSizeOuter, thickness, offs
 module makeShell(diameter, thickness, offset, screwOffsetShare) {
 	translate(v = [0, ((1 + screwOffsetShare) * thickness) + (offset / 2), 0]) {
 		rotate(a = [90, 0, 0]) {
-			cylinder(r = (diameter + thickness) / 2, h = thickness);
+			cylinder(r = (diameter + thickness) / 2, h = ((1 + screwOffsetShare) * thickness));
 		}
 	}
 }
@@ -731,7 +783,7 @@ module stabilityBracing(diameterTopTube, screwBarWidth, thickness, offset) {
 	rotate(a = [90, 0, 0]) {
 		difference() {
 			linear_extrude(height = thickness) {
-					polygon(points = [[0, thickness], [(diameterTopTube / 2) + screwBarWidth + thickness, thickness], [0, ((diameterTopTube - offset) / 2) + thickness]], paths = [[0, 1, 2]]);
+					polygon(points = [[0, thickness], [(diameterTopTube / 2) + screwBarWidth, thickness], [0, ((diameterTopTube - offset) / 2) + thickness]], paths = [[0, 1, 2]]);
 			}
 			translate(v = [0, (-1) * (offset / 2), -1]) {
 				cylinder(r = diameterTopTube / 2, h = thickness + 2);
