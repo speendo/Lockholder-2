@@ -127,15 +127,15 @@ if (part == "Complete Lockholder Set") {
                 offset = Offset,
                 screwOffsetShare = ScrewholeThickness,
                 
-                topCable1Width = topCable1Width,
-				topCable1Height = topCable1Height,
-				topCable1Angle = topCable1Angle,
-				topCable2Width = topCable2Width,
-				topCable2Height = topCable2Height,
-				topCable2Angle = topCable2Angle,
-				topCable3Width = topCable3Width,
-				topCable3Height = topCable3Height,
-				topCable3Angle = topCable3Angle
+                cable1Width = topCable1Width,
+				cable1Height = topCable1Height,
+				cable1Angle = topCable1Angle,
+				cable2Width = topCable2Width,
+				cable2Height = topCable2Height,
+				cable2Angle = topCable2Angle,
+				cable3Width = topCable3Width,
+				cable3Height = topCable3Height,
+				cable3Angle = topCable3Angle
         );
 } else if (part == "Bottom Part") {
         bottomPart(
@@ -148,15 +148,15 @@ if (part == "Complete Lockholder Set") {
                 offset = Offset,
                 screwOffsetShare = ScrewholeThickness,
 
-                bottomCable1Width = bottomCable1Width,
-				bottomCable1Height = bottomCable1Height,
-				bottomCable1Angle = bottomCable1Angle,
-				bottomCable2Width = bottomCable2Width,
-				bottomCable2Height = bottomCable2Height,
-				bottomCable2Angle = bottomCable2Angle,
-				bottomCable3Width = bottomCable3Width,
-				bottomCable3Height = bottomCable3Height,
-				bottomCable3Angle = bottomCable3Angle
+                cable1Width = bottomCable1Width,
+				cable1Height = bottomCable1Height,
+				cable1Angle = bottomCable1Angle,
+				cable2Width = bottomCable2Width,
+				cable2Height = bottomCable2Height,
+				cable2Angle = bottomCable2Angle,
+				cable3Width = bottomCable3Width,
+				cable3Height = bottomCable3Height,
+				cable3Angle = bottomCable3Angle
 
         );
 } else {
@@ -325,25 +325,25 @@ module topPart
 			);
 			union() {
 				if (cable1Height > 0 && cable1Width > 0) {
-					cablePart(diameterTopTube, lengthTopTube, (cable1Width + (2 * thickness)), (cable1Height + thickness), cable1Angle);
+					cablePart(diameterTopTube, lengthTopTube, (cable1Width + (2 * thickness)), (cable1Height + thickness), cable1Angle, thickness);
 				}
 				if (cable2Height > 0 && cable2Width > 0) {
-					cablePart(diameterTopTube, lengthTopTube, (cable2Width + (2 * thickness)), (cable2Height + thickness), cable2Angle);
+					cablePart(diameterTopTube, lengthTopTube, (cable2Width + (2 * thickness)), (cable2Height + thickness), cable2Angle, thickness);
 				}
 				if (cable3Height > 0 && cable3Width > 0) {
-					cablePart(diameterTopTube, lengthTopTube, (cable3Width + (2 * thickness)), (cable3Height + thickness), cable3Angle);
+					cablePart(diameterTopTube, lengthTopTube, (cable3Width + (2 * thickness)), (cable3Height + thickness), cable3Angle, thickness);
 				}
 			}
 		};
 		union() {
 			if (cable1Height > 0 && cable1Width > 0) {
-				cablePart(diameterTopTube, (lengthTopTube + 2), cable1Width, cable1Height, cable1Angle, true);
+				cablePart(diameterTopTube, (lengthTopTube + 2), cable1Width, cable1Height, cable1Angle, thickness, true);
 			}
 			if (cable2Height > 0 && cable2Width > 0) {
-				cablePart(diameterTopTube, (lengthTopTube + 2), cable2Width, cable2Height, cable2Angle, true);
+				cablePart(diameterTopTube, (lengthTopTube + 2), cable2Width, cable2Height, cable2Angle, thickness, true);
 			}
 			if (cable3Height > 0 && cable3Width > 0) {
-				cablePart(diameterTopTube, (lengthTopTube + 2), cable3Width, cable3Height, cable3Angle, true);
+				cablePart(diameterTopTube, (lengthTopTube + 2), cable3Width, cable3Height, cable3Angle, thickness, true);
 			}
 		}
 	};
@@ -388,25 +388,25 @@ module bottomPart
 			);
 			union() {
 				if (cable1Height > 0 && cable1Width > 0) {
-					cablePart(diameterTopTube, lengthTopTube, (cable1Width + (2 * thickness)), (cable1Height + thickness), cable1Angle);
+					cablePart(diameterTopTube, lengthTopTube, (cable1Width + (2 * thickness)), (cable1Height + thickness), cable1Angle, thickness);
 				}
 				if (cable2Height > 0 && cable2Width > 0) {
-					cablePart(diameterTopTube, lengthTopTube, (cable2Width + (2 * thickness)), (cable2Height + thickness), cable2Angle);
+					cablePart(diameterTopTube, lengthTopTube, (cable2Width + (2 * thickness)), (cable2Height + thickness), cable2Angle, thickness);
 				}
 				if (cable3Height > 0 && cable3Width > 0) {
-					cablePart(diameterTopTube, lengthTopTube, (cable3Width + (2 * thickness)), (cable3Height + thickness), cable3Angle);
+					cablePart(diameterTopTube, lengthTopTube, (cable3Width + (2 * thickness)), (cable3Height + thickness), cable3Angle, thickness);
 				}
 			}
 		};
 		union() {
 			if (cable1Height > 0 && cable1Width > 0) {
-				cablePart(diameterTopTube, (lengthTopTube + 2), cable1Width, cable1Height, cable1Angle, true);
+				cablePart(diameterTopTube, (lengthTopTube + 2), cable1Width, cable1Height, cable1Angle, thickness, true);
 			}
 			if (cable2Height > 0 && cable2Width > 0) {
-				cablePart(diameterTopTube, (lengthTopTube + 2), cable2Width, cable2Height, cable2Angle, true);
+				cablePart(diameterTopTube, (lengthTopTube + 2), cable2Width, cable2Height, cable2Angle, thickness, true);
 			}
 			if (cable3Height > 0 && cable3Width > 0) {
-				cablePart(diameterTopTube, (lengthTopTube + 2), cable3Width, cable3Height, cable3Angle, true);
+				cablePart(diameterTopTube, (lengthTopTube + 2), cable3Width, cable3Height, cable3Angle, thickness, true);
 			}
 		}
 	};
@@ -511,11 +511,11 @@ module halfTube(height, diameter, thickness, offset) {
 			}
 			translate(v = [0, 0, thickness]) {
 				rotate(a = [180,0,0]) {
-					carveRoundTube(diameter - 2 * thickness, 2 * thickness);
+					carveHalfRoundTube(diameter, thickness);
 				}
 			}
 			translate(v = [0, 0, height - thickness]) {
-				carveRoundTube(diameter - 2 * thickness, 2 * thickness);
+				carveHalfRoundTube(diameter, thickness);
 			}
 		}
 	}
@@ -825,6 +825,22 @@ module carveRoundTube(diameter, thickness) {
 	}
 }
 
+module carveHalfRoundTube(diameter, thickness) {
+	difference() {
+		cylinder(h = (thickness) + 1, r = ((diameter / 2) + thickness) + 1);
+		rotate_extrude() {
+			translate(v = [(diameter / 2), 0, 0]) {
+				difference() {
+					circle(r = thickness);
+					translate(v = [-(2 * thickness + 1),(-1)*((2 * thickness + 1) / 2),0]) {
+						square(2 * thickness + 1);
+					}
+				}
+			}
+		}
+	}
+}
+
 module carveRing(diameter, thickness) {
 	difference() {
 		cylinder(h = thickness + 2, r = ((diameter + thickness) / 2));
@@ -836,7 +852,7 @@ module carveRing(diameter, thickness) {
 	}
 }
 
-module cablePart(diameterTopTube, lengthTopTube, width, height, angle, cut=false) {
+module cablePart(diameterTopTube, lengthTopTube, width, height, angle, thickness, cut=false) {
 	finalHeight = (diameterTopTube / 2) + height;
 	rotate(a = [90, angle, 0]) {
 		translate(v = [0, 0, -(lengthTopTube / 2)]) {
@@ -850,8 +866,69 @@ module cablePart(diameterTopTube, lengthTopTube, width, height, angle, cut=false
 					}
 				}
 				if (cut == false) {
-					translate(v = [0, 0, -1]) {
-						cylinder(h = (lengthTopTube + 2), r = (diameterTopTube / 2));					}
+					union() {
+						translate(v = [0, 0, -1]) {
+							cylinder(h = (lengthTopTube + 2), r = (diameterTopTube / 2));
+						}
+						translate(v = [(-1) * ((width / 2)), 0, 0]) {
+							difference() {
+								translate(v = [-1, 0, -1]) {
+									cube([thickness + 1, (finalHeight - width / 2), thickness + 1]);
+								}
+								rotate(a = [-90, 0, 0]) {
+									translate(v = [thickness, -thickness, -1]) {
+										cylinder(h = (finalHeight - width / 2) + 2, r = thickness);
+									}
+								}
+							}
+						}
+						translate(v = [((width / 2)), 0, 0]) {
+							difference() {
+								translate(v = [-thickness, 0, -1]) {
+									cube([thickness + 1, (finalHeight - width / 2), thickness + 1]);
+								}
+								rotate(a = [-90, 0, 0]) {
+									translate(v = [-thickness, -thickness, -1]) {
+										cylinder(h = (finalHeight - width / 2) + 2, r = thickness);
+									}
+								}
+							}
+						}
+						translate(v = [0, (finalHeight - width / 2), thickness]) {
+							rotate(a = [180, 0, 0]) {
+								carveHalfRoundTube(width - 2* thickness, thickness);
+							}
+						}
+						translate(v = [(-1) * ((width / 2)), 0, lengthTopTube + 1]) {
+							difference() {
+								translate(v = [-1, 0, (-1) * (1 + thickness)]) {
+									cube([thickness + 1, (finalHeight - width / 2), thickness + 1]);
+								}
+								rotate(a = [-90, 0, 0]) {
+									translate(v = [thickness, thickness + 1, -1]) {
+										cylinder(h = (finalHeight - width / 2) + 2, r = thickness);
+									}
+								}
+							}
+						}
+						translate(v = [((width / 2)), 0, lengthTopTube + 1]) {
+							difference() {
+								translate(v = [-thickness, 0, (-1) * (1 + thickness)]) {
+									cube([thickness + 1, (finalHeight - width / 2), thickness + 1]);
+								}
+								rotate(a = [-90, 0, 0]) {
+									translate(v = [-thickness, thickness + 1, -1]) {
+										cylinder(h = (finalHeight - width / 2) + 2, r = thickness);
+									}
+								}
+							}
+						}
+						translate(v = [0, (finalHeight - width / 2), lengthTopTube - thickness]) {
+							rotate(a = [0, 0, 0]) {
+								carveHalfRoundTube(width - 2* thickness, thickness);
+							}
+						}
+					}
 				}
 			}
 		}
