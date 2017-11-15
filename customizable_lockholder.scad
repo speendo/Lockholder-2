@@ -1,19 +1,19 @@
 /* [General] */
 
-part="Bottom Part"; // [Complete Lockholder Set, Single Lockholder Set, Top Part, Bottom Part]
+part="Single Lockholder Set"; // [Complete Lockholder Set, Single Lockholder Set, Top Part, Bottom Part]
 
 // wall thickness
-Thickness = 4;
+Thickness = 3;
 
 // lower is faster - higher is smoother (use a low value for drafting, increase it later)
-Resolution = 20; // [20:300]
+Resolution = 200; // [20:300]
 
 /* [Bike and Lock] */
 
-TopTubeDiameter = 32.25;
+TopTubeDiameter = 40;
 
 // make it a little bigger for easy insertion
-LockDiameter = 20;
+LockDiameter = 14;
 
 // longer prevents vibrations but may be clumsy
 LocktubeLength = 50; // [10:150]
@@ -606,7 +606,14 @@ module tubeWithBar(lengthTopTube, diameterTopTube, nutSizeOuter, thickness, offs
 module makeShell(diameter, thickness, offset, screwOffsetShare) {
 	translate(v = [0, ((1 + screwOffsetShare) * thickness) + (offset / 2), 0]) {
 		rotate(a = [90, 0, 0]) {
-			cylinder(r = (diameter + thickness) / 2, h = ((1 + screwOffsetShare) * thickness));
+			difference() {
+				cylinder(r = (diameter + thickness) / 2, h = ((1 + screwOffsetShare) * thickness));
+				rotate(a = [180, 0, 0]) {
+					translate(v = [0, 0, -thickness]) {
+						carveHalfRoundTube(diameter - thickness, thickness);
+					}
+				}
+			}
 		}
 	}
 }
