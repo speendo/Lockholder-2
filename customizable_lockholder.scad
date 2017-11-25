@@ -1,22 +1,22 @@
 /* [General] */
 
-part="Single Lockholder Set"; // [Complete Lockholder Set, Single Lockholder Set, Top Part, Bottom Part]
+part="Bottom Part"; // [Complete Lockholder Set, Single Lockholder Set, Top Part, Bottom Part]
 
 // wall thickness
 Thickness = 3;
 
 // lower is faster - higher is smoother (use a low value for drafting, increase it later)
-Resolution = 200; // [20:300]
+Resolution = 50; // [20:300]
 
 /* [Bike and Lock] */
 
-TopTubeDiameter = 40;
+TopTubeDiameter = 40.5;
 
 // make it a little bigger for easy insertion
-LockDiameter = 14;
+LockDiameter = 15.1;
 
 // longer prevents vibrations but may be clumsy
-LocktubeLength = 50; // [10:150]
+LocktubeLength = 40; // [10:150]
 
 // between top part and bottom part - bigger values for tighter fit (I suggest to leave it at 0)
 Offset = 0;
@@ -24,9 +24,9 @@ Offset = 0;
 /* [Screws and Nuts] */
 
 // A/F in this [picture](http://en.wikipedia.org/wiki/Nut_%28hardware%29#Standard_metric_hex_nuts_sizes)
-NutDiameter = 9;
+NutDiameter = 6.5;
 
-ScrewThreadDiameter = 5.55;
+ScrewThreadDiameter = 3.8;
 
 // share of the wall thickness for the screw holes
 ScrewholeThickness = 0.75;
@@ -43,7 +43,7 @@ topCable3Height = 0;
 topCable3Angle = -15;
 
 bottomCable1Width = 5;
-bottomCable1Height = 5;
+bottomCable1Height = 7;
 bottomCable1Angle = 0;
 bottomCable2Width = 0;
 bottomCable2Height = 0;
@@ -903,7 +903,12 @@ module cablePart(diameterTopTube, lengthTopTube, width, height, angle, thickness
 						}
 						translate(v = [0, (finalHeight - width / 2), thickness]) {
 							rotate(a = [180, 0, 0]) {
-								carveHalfRoundTube(width - 2* thickness, thickness);
+								difference() {
+									carveHalfRoundTube(width - 2* thickness, thickness);
+									translate(v = [(-1) * ((2 * thickness) + 1), 0, -1]) {
+										cube([(4 * thickness) + 2, (2 * thickness) + 1, thickness + 3]);
+									}
+								}
 							}
 						}
 						translate(v = [(-1) * ((width / 2)), 0, lengthTopTube + 1]) {
@@ -931,8 +936,13 @@ module cablePart(diameterTopTube, lengthTopTube, width, height, angle, thickness
 							}
 						}
 						translate(v = [0, (finalHeight - width / 2), lengthTopTube - thickness]) {
-							rotate(a = [0, 0, 0]) {
-								carveHalfRoundTube(width - 2* thickness, thickness);
+							rotate(a = [0, 0, 180]) {
+								difference() {
+									carveHalfRoundTube(width - 2* thickness, thickness);
+									translate(v = [(-1) * ((2 * thickness) + 1), 0, -1]) {
+										cube([(4 * thickness) + 2, (2 * thickness) + 1, thickness + 3]);
+									}
+								}
 							}
 						}
 					}
