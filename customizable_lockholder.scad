@@ -6,7 +6,7 @@ part="Bottom Part"; // [Complete Lockholder Set, Single Lockholder Set, Top Part
 Thickness = 3;
 
 // lower is faster - higher is smoother (use a low value for drafting, increase it later)
-Resolution = 30; // [20:300]
+Resolution = 50; // [20:300]
 
 /* [Bike and Lock] */
 
