@@ -1,6 +1,6 @@
 /* [General] */
 
-part="Single Lockholder Set"; // [Complete Lockholder Set, Single Lockholder Set, Top Part, Bottom Part]
+part="Bottom Part"; // [Complete Lockholder Set, Single Lockholder Set, Top Part, Bottom Part]
 
 // wall thickness
 Thickness = 3;
@@ -909,7 +909,19 @@ module cablePart(diameterTopTube, lengthTopTube, width, height, angle, thickness
 						cube([width, (finalHeight - width / 2), lengthTopTube]);				
 					}
 					translate(v = [0, (finalHeight - width / 2), 0]) {
-						cylinder(h = lengthTopTube, r = (width / 2));
+						difference() {
+							cylinder(h = lengthTopTube, r = (width / 2));
+							union() {
+								translate(v = [0, 0, thickness]) {
+									rotate(a = [180, 0, 0]) {
+										carveHalfRoundTube(width - 2* thickness, thickness);
+									}
+								}
+								translate(v = [0, 0, lengthTopTube - thickness]) {
+									carveHalfRoundTube(width - 2* thickness, thickness);
+								}
+							}
+						}
 					}
 				}
 				if (cut == false) {
@@ -920,11 +932,11 @@ module cablePart(diameterTopTube, lengthTopTube, width, height, angle, thickness
 						translate(v = [(-1) * ((width / 2)), 0, 0]) {
 							difference() {
 								translate(v = [-1, 0, -1]) {
-									cube([thickness + 1, (finalHeight - width / 2), thickness + 1]);
+									cube([thickness + 1, (finalHeight - width / 2) + 1, thickness + 1]);
 								}
 								rotate(a = [-90, 0, 0]) {
 									translate(v = [thickness, -thickness, -1]) {
-										cylinder(h = (finalHeight - width / 2) + 2, r = thickness);
+										cylinder(h = (finalHeight - width / 2) + 3, r = thickness);
 									}
 								}
 							}
@@ -932,21 +944,11 @@ module cablePart(diameterTopTube, lengthTopTube, width, height, angle, thickness
 						translate(v = [((width / 2)), 0, 0]) {
 							difference() {
 								translate(v = [-thickness, 0, -1]) {
-									cube([thickness + 1, (finalHeight - width / 2), thickness + 1]);
+									cube([thickness + 1, (finalHeight - width / 2) + 1, thickness + 1]);
 								}
 								rotate(a = [-90, 0, 0]) {
 									translate(v = [-thickness, -thickness, -1]) {
-										cylinder(h = (finalHeight - width / 2) + 2, r = thickness);
-									}
-								}
-							}
-						}
-						translate(v = [0, (finalHeight - width / 2), thickness]) {
-							rotate(a = [180, 0, 0]) {
-								difference() {
-									carveHalfRoundTube(width - 2* thickness, thickness);
-									translate(v = [(-1) * ((2 * thickness) + 1), 0, -1]) {
-										cube([(4 * thickness) + 2, (2 * thickness) + 1, thickness + 3]);
+										cylinder(h = (finalHeight - width / 2) + 3, r = thickness);
 									}
 								}
 							}
@@ -954,11 +956,11 @@ module cablePart(diameterTopTube, lengthTopTube, width, height, angle, thickness
 						translate(v = [(-1) * ((width / 2)), 0, lengthTopTube + 1]) {
 							difference() {
 								translate(v = [-1, 0, (-1) * (1 + thickness)]) {
-									cube([thickness + 1, (finalHeight - width / 2), thickness + 1]);
+									cube([thickness + 1, (finalHeight - width / 2) + 1, thickness + 1]);
 								}
 								rotate(a = [-90, 0, 0]) {
 									translate(v = [thickness, thickness + 1, -1]) {
-										cylinder(h = (finalHeight - width / 2) + 2, r = thickness);
+										cylinder(h = (finalHeight - width / 2) + 3, r = thickness);
 									}
 								}
 							}
@@ -966,21 +968,11 @@ module cablePart(diameterTopTube, lengthTopTube, width, height, angle, thickness
 						translate(v = [((width / 2)), 0, lengthTopTube + 1]) {
 							difference() {
 								translate(v = [-thickness, 0, (-1) * (1 + thickness)]) {
-									cube([thickness + 1, (finalHeight - width / 2), thickness + 1]);
+									cube([thickness + 1, (finalHeight - width / 2) + 1, thickness + 1]);
 								}
 								rotate(a = [-90, 0, 0]) {
 									translate(v = [-thickness, thickness + 1, -1]) {
-										cylinder(h = (finalHeight - width / 2) + 2, r = thickness);
-									}
-								}
-							}
-						}
-						translate(v = [0, (finalHeight - width / 2), lengthTopTube - thickness]) {
-							rotate(a = [0, 0, 180]) {
-								difference() {
-									carveHalfRoundTube(width - 2* thickness, thickness);
-									translate(v = [(-1) * ((2 * thickness) + 1), 0, -1]) {
-										cube([(4 * thickness) + 2, (2 * thickness) + 1, thickness + 3]);
+										cylinder(h = (finalHeight - width / 2) + 3, r = thickness);
 									}
 								}
 							}
