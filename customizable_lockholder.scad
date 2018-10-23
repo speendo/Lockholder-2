@@ -1,63 +1,63 @@
 /* [General] */
 
-part="Bottom Part"; // [Complete Lockholder Set, Single Lockholder Set, Top Part, Bottom Part]
+part = 4; // [1:Complete Lockholder Set, 2:Single Lockholder Set, 3:Top Part, 4:Bottom Part, 5:Assembled Lockholder Set]
 
 // wall thickness
 Thickness = 3; // [0.5:0.1:10]
 
 // lower is faster - higher is smoother (use a low value for drafting, increase it later)
-Resolution = 50; // [10:300]
+Resolution = 50; // [10:1:300]
 
 /* [Bike and Lock] */
 
-TopTubeDiameter = 40.5; // [0:0.01:100]
+TopTubeDiameter = 40.5; // [1:0.01:300]
 
 // make it a little bigger for easy insertion
-LockDiameter = 15.1; // [0:0.01:100]
+LockDiameter = 15.1; // [1:0.01:300]
 
 // longer prevents vibrations but may be clumsy
-LocktubeLength = 40; // [5:0.1:150]
+LocktubeLength = 40; // [1:0.01:300]
 
 // between top part and bottom part - bigger values for tighter fit (I suggest to leave it at 0)
-Offset = 0; // [0:0.01:100]
+Offset = 0; // [0:0.01:300]
 
 /* [Screws and Nuts] */
 
-// A/F in this [picture](http://en.wikipedia.org/wiki/Nut_%28hardware%29#Standard_metric_hex_nuts_sizes)
-NutDiameter = 10; // [0:0.01:50]
+// A/F in this [picture](https://en.wikipedia.org/wiki/Nut_(hardware)#/media/File:Nut_quote.png)
+NutDiameter = 6.01; // [0:0.01:100]
 
-ScrewHeadDiameter = 5; // [0:0.01:50]
+ScrewHeadDiameter = 5.5; // [0:0.01:100]
 
-ScrewThreadDiameter = 3.8; // [0:0.01:50]
+ScrewThreadDiameter = 3; // [0:0.01:100]
 
 // share of the wall thickness for the screw holes
-ScrewholeThickness = 0.75; // [0:0.01:50]
+ScrewholeThickness = 0.75; // [0:0.001:1]
 
 /* [Cable Shafts] */
-topCable1Width = 0; // [0:0.01:20]
-topCable1Height = 0; // [0:0.01:20]
-topCable1Angle = 0; // [0:0.01:180]
-topCable2Width = 0; // [0:0.01:20]
-topCable2Height = 0; // [0:0.01:20]
-topCable2Angle = 15; // [0:0.01:180]
-topCable3Width = 0; // [0:0.01:20]
-topCable3Height = 0; // [0:0.01:20]
-topCable3Angle = -15; // [0:0.01:180]
+topCable1Width = 0; // [0:0.01:100]
+topCable1Height = 0; // [0:0.01:100]
+topCable1Angle = 0; // [-90:0.01:90]
+topCable2Height = 0; // [0:0.01:100]
+topCable2Width = 0; // [0:0.01:100]
+topCable2Angle = 15; // [-90:0.01:90]
+topCable3Width = 0; // [0:0.01:100]
+topCable3Height = 0; // [0:0.01:100]
+topCable3Angle = -15; // [-90:0.01:90]
 
-bottomCable1Width = 5; // [0:0.01:20]
-bottomCable1Height = 7; // [0:0.01:20]
-bottomCable1Angle = 0; // [0:0.01:180]
-bottomCable2Width = 0; // [0:0.01:20]
-bottomCable2Height = 0; // [0:0.01:20]
-bottomCable2Angle = 15; // [0:0.01:180]
-bottomCable3Width = 0; // [0:0.01:20]
-bottomCable3Height = 0; // [0:0.01:20]
-bottomCable3Angle = -15; // [0:0.01:180]
+bottomCable1Width = 5; // [0:0.01:100]
+bottomCable1Height = 7; // [0.01:100]
+bottomCable1Angle = 0; // [-90:0.01:90]
+bottomCable2Width = 0; // [0:0.01:100]
+bottomCable2Height = 0; // [0:0.01:100]
+bottomCable2Angle = 15; // [-90:0.01:90]
+bottomCable3Width = 0; // [0:0.01:100]
+bottomCable3Height = 0; // [0:0.01:100]
+bottomCable3Angle = -15; // [-90:0.01:90]
 
 /* [Hidden] */
 $fn=Resolution;
 
-if (part == "Complete Lockholder Set") {
+if (part == 1) {
 	completeLockHolderSet(
 		diameterTopTube = TopTubeDiameter,
 		lengthLock = LocktubeLength,
@@ -91,7 +91,7 @@ if (part == "Complete Lockholder Set") {
 		bottomCable3Height = bottomCable3Height,
 		bottomCable3Angle = bottomCable3Angle
 	);
-} else if (part == "Single Lockholder Set") {
+} else if (part == 2) {
 	lockHolderSet(
 		diameterTopTube = TopTubeDiameter,
 		lengthLock = LocktubeLength,
@@ -125,7 +125,7 @@ if (part == "Complete Lockholder Set") {
 		bottomCable3Height = bottomCable3Height,
 		bottomCable3Angle = bottomCable3Angle
 	);
-} else if (part == "Top Part") {
+} else if (part == 3) {
 	topPart(
 		diameterTopTube = TopTubeDiameter,
 		diameterLock = LockDiameter,
@@ -148,7 +148,7 @@ if (part == "Complete Lockholder Set") {
 		cable3Height = topCable3Height,
 		cable3Angle = topCable3Angle
 	);
-} else if (part == "Bottom Part") {
+} else if (part == 4) {
 	bottomPart(
 		diameterTopTube = TopTubeDiameter,
 		lengthLock = LocktubeLength,
@@ -171,6 +171,40 @@ if (part == "Complete Lockholder Set") {
 		cable3Width = bottomCable3Width,
 		cable3Height = bottomCable3Height,
 		cable3Angle = bottomCable3Angle
+	);
+} else if (part == 5) {
+	assembledLockHolderSet(
+		diameterTopTube = TopTubeDiameter,
+		lengthLock = LocktubeLength,
+		diameterLock = LockDiameter,
+
+		nutDiameter = NutDiameter,
+		screwDiameter = ScrewHeadDiameter,
+		threadDiameter = ScrewThreadDiameter,
+
+		thickness = Thickness,
+		offset = Offset,
+		screwOffsetShare = ScrewholeThickness,
+
+		topCable1Width = topCable1Width,
+		topCable1Height = topCable1Height,
+		topCable1Angle = topCable1Angle,
+		topCable2Width = topCable2Width,
+		topCable2Height = topCable2Height,
+		topCable2Angle = topCable2Angle,
+		topCable3Width = topCable3Width,
+		topCable3Height = topCable3Height,
+		topCable3Angle = topCable3Angle,
+
+		bottomCable1Width = bottomCable1Width,
+		bottomCable1Height = bottomCable1Height,
+		bottomCable1Angle = bottomCable1Angle,
+		bottomCable2Width = bottomCable2Width,
+		bottomCable2Height = bottomCable2Height,
+		bottomCable2Angle = bottomCable2Angle,
+		bottomCable3Width = bottomCable3Width,
+		bottomCable3Height = bottomCable3Height,
+		bottomCable3Angle = bottomCable3Angle
 	);
 } else {
 	completeLockHolderSet(
@@ -310,6 +344,58 @@ module completeLockHolderSet
 	}
 }
 
+// - Set of Top Part and Bottom Part Assembled
+module assembledLockHolderSet
+(
+	diameterTopTube = 30,
+	lengthLock = 50,
+	diameterLock = 15,
+
+	nutDiameter = 10,
+	screwDiameter = 10,
+	threadDiameter = 6,
+
+	thickness = 5,
+	offset = 2,
+	screwOffsetShare = 0.75,
+	
+	topCable1Width = 0,
+	topCable1Height = 0,
+	topCable1Angle = 0,
+	topCable2Width = 0,
+	topCable2Height = 0,
+	topCable2Angle = 15,
+	topCable3Width = 0,
+	topCable3Height = 0,
+	topCable3Angle = -15,
+
+	bottomCable1Width = 0,
+	bottomCable1Height = 0,
+	bottomCable1Angle = 0,
+	bottomCable2Width = 0,
+	bottomCable2Height = 0,
+	bottomCable2Angle = 15,
+	bottomCable3Width = 0,
+	bottomCable3Height = 0,
+	bottomCable3Angle = -15
+)
+{
+	shellDiameter = shellDiameter(nutDiameter, screwDiameter);
+	lengthTopTube = lengthTopTube(diameterLock, shellDiameter, thickness);
+	screwBarWidth = screwBarWidth(shellDiameter, thickness);
+
+	translate([0,0,offset/2]) {
+		topPart(diameterTopTube, diameterLock, nutDiameter, screwDiameter, threadDiameter, thickness, offset, screwOffsetShare, topCable1Width, topCable1Height, topCable1Angle, topCable2Width, topCable2Height, topCable2Angle, topCable3Width, topCable3Height, topCable3Angle);
+	}
+	
+	translate([0,0,-offset/2]) {
+		rotate(a = [0, 180, 180]) {
+			bottomPart(diameterTopTube, lengthLock, diameterLock, nutDiameter, screwDiameter, threadDiameter, thickness, offset, screwOffsetShare, bottomCable1Width, bottomCable1Height, bottomCable1Angle, bottomCable2Width, bottomCable2Height, bottomCable2Angle, bottomCable3Width, bottomCable3Height, bottomCable3Angle);
+		}
+	}
+}
+
+
 // Object with cables
 // - Top Part
 module topPart
@@ -353,25 +439,25 @@ module topPart
 			);
 			union() {
 				if (cable1Height > 0 && cable1Width > 0) {
-					cablePart(diameterTopTube, lengthTopTube, (cable1Width + (2 * thickness)), (cable1Height + thickness), cable1Angle, thickness);
+					cablePart(diameterTopTube, lengthTopTube, (cable1Width + (2 * thickness)), (cable1Height + thickness), cable1Angle, thickness, offset);
 				}
 				if (cable2Height > 0 && cable2Width > 0) {
-					cablePart(diameterTopTube, lengthTopTube, (cable2Width + (2 * thickness)), (cable2Height + thickness), cable2Angle, thickness);
+					cablePart(diameterTopTube, lengthTopTube, (cable2Width + (2 * thickness)), (cable2Height + thickness), cable2Angle, thickness, offset);
 				}
 				if (cable3Height > 0 && cable3Width > 0) {
-					cablePart(diameterTopTube, lengthTopTube, (cable3Width + (2 * thickness)), (cable3Height + thickness), cable3Angle, thickness);
+					cablePart(diameterTopTube, lengthTopTube, (cable3Width + (2 * thickness)), (cable3Height + thickness), cable3Angle, thickness, offset);
 				}
 			}
 		};
 		union() {
 			if (cable1Height > 0 && cable1Width > 0) {
-				cablePart(diameterTopTube, (lengthTopTube + 2), cable1Width, cable1Height, cable1Angle, thickness, true);
+				cablePart(diameterTopTube, (lengthTopTube + 2), cable1Width, cable1Height, cable1Angle, thickness, offset, true);
 			}
 			if (cable2Height > 0 && cable2Width > 0) {
-				cablePart(diameterTopTube, (lengthTopTube + 2), cable2Width, cable2Height, cable2Angle, thickness, true);
+				cablePart(diameterTopTube, (lengthTopTube + 2), cable2Width, cable2Height, cable2Angle, thickness, offset, true);
 			}
 			if (cable3Height > 0 && cable3Width > 0) {
-				cablePart(diameterTopTube, (lengthTopTube + 2), cable3Width, cable3Height, cable3Angle, thickness, true);
+				cablePart(diameterTopTube, (lengthTopTube + 2), cable3Width, cable3Height, cable3Angle, thickness, offset, true);
 			}
 		}
 	};
@@ -421,25 +507,25 @@ module bottomPart
 			);
 			union() {
 				if (cable1Height > 0 && cable1Width > 0) {
-					cablePart(diameterTopTube, lengthTopTube, (cable1Width + (2 * thickness)), (cable1Height + thickness), cable1Angle, thickness);
+					cablePart(diameterTopTube, lengthTopTube, (cable1Width + (2 * thickness)), (cable1Height + thickness), cable1Angle, thickness, offset);
 				}
 				if (cable2Height > 0 && cable2Width > 0) {
-					cablePart(diameterTopTube, lengthTopTube, (cable2Width + (2 * thickness)), (cable2Height + thickness), cable2Angle, thickness);
+					cablePart(diameterTopTube, lengthTopTube, (cable2Width + (2 * thickness)), (cable2Height + thickness), cable2Angle, thickness, offset);
 				}
 				if (cable3Height > 0 && cable3Width > 0) {
-					cablePart(diameterTopTube, lengthTopTube, (cable3Width + (2 * thickness)), (cable3Height + thickness), cable3Angle, thickness);
+					cablePart(diameterTopTube, lengthTopTube, (cable3Width + (2 * thickness)), (cable3Height + thickness), cable3Angle, thickness, offset);
 				}
 			}
 		};
 		union() {
 			if (cable1Height > 0 && cable1Width > 0) {
-				cablePart(diameterTopTube, (lengthTopTube + 2), cable1Width, cable1Height, cable1Angle, thickness, true);
+				cablePart(diameterTopTube, (lengthTopTube + 2), cable1Width, cable1Height, cable1Angle, thickness, offset, true);
 			}
 			if (cable2Height > 0 && cable2Width > 0) {
-				cablePart(diameterTopTube, (lengthTopTube + 2), cable2Width, cable2Height, cable2Angle, thickness, true);
+				cablePart(diameterTopTube, (lengthTopTube + 2), cable2Width, cable2Height, cable2Angle, thickness, offset, true);
 			}
 			if (cable3Height > 0 && cable3Width > 0) {
-				cablePart(diameterTopTube, (lengthTopTube + 2), cable3Width, cable3Height, cable3Angle, thickness, true);
+				cablePart(diameterTopTube, (lengthTopTube + 2), cable3Width, cable3Height, cable3Angle, thickness, offset, true);
 			}
 		}
 	};
@@ -899,10 +985,10 @@ module carveRing(diameter, thickness) {
 	}
 }
 
-module cablePart(diameterTopTube, lengthTopTube, width, height, angle, thickness, cut=false) {
+module cablePart(diameterTopTube, lengthTopTube, width, height, angle, thickness, offset, cut=false) {
 	finalHeight = (diameterTopTube / 2) + height;
 	rotate(a = [90, angle, 0]) {
-		translate(v = [0, 0, -(lengthTopTube / 2)]) {
+		translate(v = [0, -(offset / 2), -(lengthTopTube / 2)]) {
 			difference() {
 				union() {
 					translate(v = [-(width / 2), 0, 0]) {
