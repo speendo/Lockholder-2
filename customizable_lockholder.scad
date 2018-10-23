@@ -3,56 +3,56 @@
 part="Bottom Part"; // [Complete Lockholder Set, Single Lockholder Set, Top Part, Bottom Part]
 
 // wall thickness
-Thickness = 3;
+Thickness = 3; // [0.5:0.1:10]
 
 // lower is faster - higher is smoother (use a low value for drafting, increase it later)
-Resolution = 50; // [20:300]
+Resolution = 50; // [10:300]
 
 /* [Bike and Lock] */
 
-TopTubeDiameter = 40.5;
+TopTubeDiameter = 40.5; // [0:0.01:100]
 
 // make it a little bigger for easy insertion
-LockDiameter = 15.1;
+LockDiameter = 15.1; // [0:0.01:100]
 
 // longer prevents vibrations but may be clumsy
-LocktubeLength = 40; // [10:150]
+LocktubeLength = 40; // [5:0.1:150]
 
 // between top part and bottom part - bigger values for tighter fit (I suggest to leave it at 0)
-Offset = 0;
+Offset = 0; // [0:0.01:100]
 
 /* [Screws and Nuts] */
 
 // A/F in this [picture](http://en.wikipedia.org/wiki/Nut_%28hardware%29#Standard_metric_hex_nuts_sizes)
-NutDiameter = 10;
+NutDiameter = 10; // [0:0.01:50]
 
-ScrewHeadDiameter = 5;
+ScrewHeadDiameter = 5; // [0:0.01:50]
 
-ScrewThreadDiameter = 3.8;
+ScrewThreadDiameter = 3.8; // [0:0.01:50]
 
 // share of the wall thickness for the screw holes
-ScrewholeThickness = 0.75;
+ScrewholeThickness = 0.75; // [0:0.01:50]
 
 /* [Cable Shafts] */
-topCable1Width = 0;
-topCable1Height = 0;
-topCable1Angle = 0;
-topCable2Height = 0;
-topCable2Width = 0;
-topCable2Angle = 15;
-topCable3Width = 0;
-topCable3Height = 0;
-topCable3Angle = -15;
+topCable1Width = 0; // [0:0.01:20]
+topCable1Height = 0; // [0:0.01:20]
+topCable1Angle = 0; // [0:0.01:180]
+topCable2Width = 0; // [0:0.01:20]
+topCable2Height = 0; // [0:0.01:20]
+topCable2Angle = 15; // [0:0.01:180]
+topCable3Width = 0; // [0:0.01:20]
+topCable3Height = 0; // [0:0.01:20]
+topCable3Angle = -15; // [0:0.01:180]
 
-bottomCable1Width = 5;
-bottomCable1Height = 7;
-bottomCable1Angle = 0;
-bottomCable2Width = 0;
-bottomCable2Height = 0;
-bottomCable2Angle = 15;
-bottomCable3Width = 0;
-bottomCable3Height = 0;
-bottomCable3Angle = -15;
+bottomCable1Width = 5; // [0:0.01:20]
+bottomCable1Height = 7; // [0:0.01:20]
+bottomCable1Angle = 0; // [0:0.01:180]
+bottomCable2Width = 0; // [0:0.01:20]
+bottomCable2Height = 0; // [0:0.01:20]
+bottomCable2Angle = 15; // [0:0.01:180]
+bottomCable3Width = 0; // [0:0.01:20]
+bottomCable3Height = 0; // [0:0.01:20]
+bottomCable3Angle = -15; // [0:0.01:180]
 
 /* [Hidden] */
 $fn=Resolution;
@@ -730,7 +730,7 @@ module positionScrewHeadHoles(shellDiameter, diameter, plateSizeX, plateSizeY, t
 }
 
 module positionScrewHoles(shellDiameter, diameter, plateSizeX, plateSizeY, thickness) {
-#	translate(v = [(plateSizeX + shellDiameter) / 2, 0, ((shellDiameter + thickness) / 2)]) {
+	translate(v = [(plateSizeX + shellDiameter) / 2, 0, ((shellDiameter + thickness) / 2)]) {
 		screwHole(diameter, thickness);
 	}
 	translate(v = [(plateSizeX + shellDiameter) / 2, 0, plateSizeY - ((shellDiameter + thickness) / 2)]) {
