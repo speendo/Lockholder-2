@@ -992,25 +992,23 @@ module cablePart(diameterTopTube, lengthTopTube, width, height, angle, thickness
 			difference() {
 				union() {
 					translate(v = [-(width / 2), 0, 0]) {
-						cube([width, (finalHeight - width / 2), lengthTopTube]);				
+						cube([width, (finalHeight - width / 2), lengthTopTube]);
 					}
 					translate(v = [0, (finalHeight - width / 2), 0]) {
-						difference() {
-							cylinder(h = lengthTopTube, r = (width / 2));
-							union() {
-								translate(v = [0, 0, thickness]) {
-									rotate(a = [180, 0, 0]) {
-										carveHalfRoundTube(width - 2* thickness, thickness);
-									}
-								}
-								translate(v = [0, 0, lengthTopTube - thickness]) {
-									carveHalfRoundTube(width - 2* thickness, thickness);
-								}
-							}
-						}
+						cylinder(h = lengthTopTube, r = (width / 2));
 					}
 				}
 				if (cut == false) {
+					union() {
+						translate(v = [0, (finalHeight - width / 2), thickness]) {
+							rotate(a = [180, 0, 0]) {
+								carveHalfRoundTube(width - 2* thickness, thickness);
+							}
+						}
+						translate(v = [0, (finalHeight - width / 2), lengthTopTube - thickness]) {
+							carveHalfRoundTube(width - 2* thickness, thickness);
+						}
+					}
 					union() {
 						translate(v = [0, 0, -1]) {
 							cylinder(h = (lengthTopTube + 2), r = (diameterTopTube / 2));
