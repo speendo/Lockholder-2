@@ -5,8 +5,14 @@ part = 4; // [1:Complete Lockholder Set, 2:Single Lockholder Set, 3:Top Part, 4:
 // wall thickness
 Thickness = 3; // [0.5:0.1:10]
 
-// lower is faster - higher is smoother (use a low value for drafting, increase it later)
-Resolution = 50; // [10:1:300]
+// Number of Fragments (0 for disabled)
+$fn = 0; // [0:1:200]
+
+// Minimum Angle for a Fragment
+$fa = 0.5; // [0.01:0.01:50]
+
+// Minimum Size of a Fragment
+$fs = 0.5; // [0.01:0.01:50]
 
 /* [Bike and Lock] */
 
@@ -55,7 +61,6 @@ bottomCable3Height = 0; // [0:0.01:100]
 bottomCable3Angle = -15; // [-90:0.01:90]
 
 /* [Hidden] */
-$fn=Resolution;
 
 if (part == 1) {
 	completeLockHolderSet(
