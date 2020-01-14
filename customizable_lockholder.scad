@@ -579,7 +579,29 @@ module bottomPartPlain
 	translate(v = [0, lengthTopTube / 2, 0]) {
 		difference() {
 			union() {
-				bottomPart1(lengthTopTube, diameterTopTube, lengthLock, diameterLock, screwBarWidth, shellDiameter, nutDiameter, threadDiameter, thickness, offset, screwOffsetShare);
+				difference() {
+					bottomPart1(lengthTopTube, diameterTopTube, lengthLock, diameterLock, screwBarWidth, shellDiameter, nutDiameter, threadDiameter, thickness, offset, screwOffsetShare);
+					translate(v = [((diameterTopTube + diameterLock) / 2)+ thickness, (-1) * (lengthTopTube / 2), (lengthLock - (thickness / 2))]) {
+						carveRoundTube(diameterLock, thickness);
+					}
+					translate(v = [((diameterTopTube + diameterLock) / 2)+ thickness, (-1) * (lengthTopTube / 2), 0]) {
+						rotate(a = [180, 0, 0]) {
+							difference() {
+								translate(v = [0, 0, (-1) * (thickness / 2)]) {
+									carveRoundTube(diameterLock, thickness);
+								}
+								difference() {
+									translate(v = [screwBarWidth - diameterLock, 0, (-1) * thickness / 2]) {
+										cube(size = [diameterLock, diameterLock + (2 * thickness) + 2, thickness + 2], center = true);
+									}
+									translate(v = [0, 0, (-1) * ((thickness + 4) / 2)]) {
+										cylinder(h = thickness + 4, r = (diameterLock + thickness) / 2);
+									}
+								}
+							}
+						}
+					}
+				}
 				translate(v = [0, (-1) * (shellDiameter + (thickness / 2)), 0]) {
 					doubleStabilityBracing(diameterTopTube, screwBarWidth, thickness, offset);
 				}
@@ -591,21 +613,13 @@ module bottomPartPlain
 				}
 			}
 			translate(v = [((diameterTopTube + diameterLock) / 2)+ thickness, (-1) * (lengthTopTube / 2), (lengthLock - (thickness / 2))]) {
-				carveRoundTube(diameterLock, thickness);
+				carveInnerHalfRoundTube(diameterLock, thickness);
 			}
 			translate(v = [((diameterTopTube + diameterLock) / 2)+ thickness, (-1) * (lengthTopTube / 2), 0]) {
 				rotate(a = [180, 0, 0]) {
 					difference() {
 						translate(v = [0, 0, (-1) * (thickness / 2)]) {
-							carveRoundTube(diameterLock, thickness);
-						}
-						difference() {
-							translate(v = [screwBarWidth - diameterLock, 0, (-1) * thickness / 2]) {
-								cube(size = [diameterLock, diameterLock + (2 * thickness) + 2, thickness + 2], center = true);
-							}
-							translate(v = [0, 0, (-1) * ((thickness + 4) / 2)]) {
-								cylinder(h = thickness + 4, r = (diameterLock + thickness) / 2);
-							}
+							carveInnerHalfRoundTube(diameterLock, thickness);
 						}
 					}
 				}
@@ -968,6 +982,22 @@ module carveHalfRoundTube(diameter, thickness) {
 					circle(r = thickness);
 					translate(v = [-(2 * thickness + 1),(-1)*((2 * thickness + 1) / 2),0]) {
 						square(2 * thickness + 1);
+					}
+				}
+			}
+		}
+	}
+}
+
+module carveInnerHalfRoundTube(diameter, thickness) {
+	difference() {
+		cylinder(h = (thickness / 2) + 1, r = ((diameter / 2) + thickness) + 1);
+		rotate_extrude() {
+			translate(v = [((diameter  + thickness) / 2), 0, 0]) {
+				union() {
+					circle(r = (thickness / 2));
+					translate(v = [0,(-1)*(thickness / 2),0]) {
+						square([thickness + 1, thickness]);
 					}
 				}
 			}
