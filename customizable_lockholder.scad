@@ -241,7 +241,7 @@ if (part == 1) {
 	);
 }
 
-// lockholder v 2.2
+// lockholder v 2.3
 
 // Functions
 // - Set of Top Part and Bottom Part
@@ -597,14 +597,15 @@ module bottomPartPlain
 				rotate(a = [180, 0, 0]) {
 					difference() {
 						translate(v = [0, 0, (-1) * (thickness / 2)]) {
-						carveRoundTube(diameterLock, thickness);
+							carveRoundTube(diameterLock, thickness);
 						}
 						difference() {
 							translate(v = [screwBarWidth - diameterLock, 0, (-1) * thickness / 2]) {
 								cube(size = [diameterLock, diameterLock + (2 * thickness) + 2, thickness + 2], center = true);
 							}
-							translate(v = [0, 0, (-1) * ((thickness + 4) / 2)])
-							cylinder(h = thickness + 4, r = (diameterLock + thickness) / 2);
+							translate(v = [0, 0, (-1) * ((thickness + 4) / 2)]) {
+								cylinder(h = thickness + 4, r = (diameterLock + thickness) / 2);
+							}
 						}
 					}
 				}
@@ -999,14 +1000,19 @@ module cablePart(diameterTopTube, lengthTopTube, width, height, angle, thickness
 					}
 				}
 				if (cut == false) {
-					union() {
-						translate(v = [0, (finalHeight - width / 2), thickness]) {
-							rotate(a = [180, 0, 0]) {
+					difference() {
+						union() {
+							translate(v = [0, (finalHeight - width / 2), thickness]) {
+								rotate(a = [180, 0, 0]) {
+									carveHalfRoundTube(width - 2* thickness, thickness);
+								}
+							}
+							translate(v = [0, (finalHeight - width / 2), lengthTopTube - thickness]) {
 								carveHalfRoundTube(width - 2* thickness, thickness);
 							}
 						}
-						translate(v = [0, (finalHeight - width / 2), lengthTopTube - thickness]) {
-							carveHalfRoundTube(width - 2* thickness, thickness);
+						translate(v = [- (width / 2) - 1, (finalHeight - width - 1), 0]) {
+							cube([width + 2,(width / 2) + 1,lengthTopTube + 2]);
 						}
 					}
 					union() {
