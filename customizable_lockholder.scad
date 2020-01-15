@@ -24,6 +24,9 @@ LockDiameter = 15.1; // [1:0.01:300]
 // longer prevents vibrations but may be clumsy
 LocktubeLength = 40; // [1:0.01:300]
 
+// Make the Locktube "oval"
+LockAdditionalSlotWidth = 0; // [0:0.01:300]
+
 // between top part and bottom part - bigger values for tighter fit (I suggest to leave it at 0)
 Offset = 0; // [0:0.01:300]
 
@@ -286,7 +289,7 @@ module lockHolderSet
 )
 {
 	shellDiameter = shellDiameter(nutDiameter, screwDiameter);
-	lengthTopTube = lengthTopTube(diameterLock, shellDiameter, thickness);
+	lengthTopTube = lengthTopTube(diameterLock, shellDiameter, thickness, LockAdditionalSlotWidth);
 	screwBarWidth = screwBarWidth(shellDiameter, thickness);
 
 	translate(v = [(diameterTopTube / 2) + screwBarWidth + (1.5 * thickness), 0, 0]) {
@@ -337,7 +340,7 @@ module completeLockHolderSet
 )
 {
 	shellDiameter = shellDiameter(nutDiameter, screwDiameter);
-	lengthTopTube = lengthTopTube(diameterLock, shellDiameter, thickness);
+	lengthTopTube = lengthTopTube(diameterLock, shellDiameter, thickness, LockAdditionalSlotWidth);
 	screwBarWidth = screwBarWidth(shellDiameter, thickness);
 
 	translate(v = [0, (lengthTopTube + thickness) / 2, 0]) {
@@ -386,7 +389,7 @@ module assembledLockHolderSet
 )
 {
 	shellDiameter = shellDiameter(nutDiameter, screwDiameter);
-	lengthTopTube = lengthTopTube(diameterLock, shellDiameter, thickness);
+	lengthTopTube = lengthTopTube(diameterLock, shellDiameter, thickness, LockAdditionalSlotWidth);
 	screwBarWidth = screwBarWidth(shellDiameter, thickness);
 
 	translate([0,0,offset/2]) {
@@ -428,7 +431,7 @@ module topPart
 )
 {
 	shellDiameter = shellDiameter(nutDiameter, screwDiameter);
-	lengthTopTube = lengthTopTube(diameterLock, shellDiameter, thickness);
+	lengthTopTube = lengthTopTube(diameterLock, shellDiameter, thickness, LockAdditionalSlotWidth);
 	difference() {
 		union() {
 			topPartPlain
@@ -495,7 +498,7 @@ module bottomPart
 )
 {
 	shellDiameter = shellDiameter(nutDiameter, screwDiameter);
-	lengthTopTube = lengthTopTube(diameterLock, shellDiameter, thickness);
+	lengthTopTube = lengthTopTube(diameterLock, shellDiameter, thickness, LockAdditionalSlotWidth);
 	difference() {
 		union() {
 			bottomPartPlain
@@ -550,7 +553,7 @@ module topPartPlain
 	screwOffsetShare
 )
 {
-	lengthTopTube = lengthTopTube(diameterLock, shellDiameter, thickness);
+	lengthTopTube = lengthTopTube(diameterLock, shellDiameter, thickness, LockAdditionalSlotWidth);
 	screwBarWidth = screwBarWidth(shellDiameter, thickness);
 
 	translate(v = [0, lengthTopTube / 2, 0]) {
@@ -578,7 +581,7 @@ module bottomPartPlain
 	screwOffsetShare
 )
 {
-	lengthTopTube = lengthTopTube(diameterLock, shellDiameter, thickness);
+	lengthTopTube = lengthTopTube(diameterLock, shellDiameter, thickness, LockAdditionalSlotWidth);
 	screwBarWidth = screwBarWidth(shellDiameter, thickness);
 
 	translate(v = [0, lengthTopTube / 2, 0]) {
@@ -587,20 +590,34 @@ module bottomPartPlain
 				difference() {
 					bottomPart1(lengthTopTube, diameterTopTube, lengthLock, diameterLock, screwBarWidth, shellDiameter, nutDiameter, threadDiameter, thickness, offset, screwOffsetShare);
 					translate(v = [((diameterTopTube + diameterLock) / 2)+ thickness, (-1) * (lengthTopTube / 2), (lengthLock - (thickness / 2))]) {
-						carveRoundTube(diameterLock, thickness);
+						carveRoundTube(diameterLock, thickness, LockAdditionalSlotWidth);
 					}
 					translate(v = [((diameterTopTube + diameterLock) / 2)+ thickness, (-1) * (lengthTopTube / 2), 0]) {
 						rotate(a = [180, 0, 0]) {
 							difference() {
 								translate(v = [0, 0, (-1) * (thickness / 2)]) {
-									carveRoundTube(diameterLock, thickness);
+									carveRoundTube(diameterLock, thickness, LockAdditionalSlotWidth);
 								}
 								difference() {
 									translate(v = [screwBarWidth - diameterLock, 0, (-1) * thickness / 2]) {
-										cube(size = [diameterLock, diameterLock + (2 * thickness) + 2, thickness + 2], center = true);
+										cube(size = [diameterLock, diameterLock + (2 * thickness) + 2 + LockAdditionalSlotWidth, thickness + 2], center = true);
 									}
 									translate(v = [0, 0, (-1) * ((thickness + 4) / 2)]) {
-										cylinder(h = thickness + 4, r = (diameterLock + thickness) / 2);
+										if (LockAdditionalSlotWidth == 0) {
+											cylinder(h = thickness + 4, r = (diameterLock + thickness) / 2);
+										} else {
+											union() {
+												translate([0,-(LockAdditionalSlotWidth / 2),0]) {
+													cylinder(h = thickness + 4, r = (diameterLock + thickness) / 2);
+												}
+												translate([-((diameterLock + thickness) / 2),-(LockAdditionalSlotWidth/2),]) {
+													cube([diameterLock + thickness, LockAdditionalSlotWidth, thickness + 4]);
+												}
+												translate([0,LockAdditionalSlotWidth / 2,0]) {
+													cylinder(h = thickness + 4, r = (diameterLock + thickness) / 2);
+												}
+											}
+										}
 									}
 								}
 							}
@@ -618,13 +635,15 @@ module bottomPartPlain
 				}
 			}
 			translate(v = [((diameterTopTube + diameterLock) / 2)+ thickness, (-1) * (lengthTopTube / 2), (lengthLock - (thickness / 2))]) {
-				carveInnerHalfRoundTube(diameterLock, thickness);
+				// change
+				carveInnerHalfRoundTube(diameterLock, thickness, LockAdditionalSlotWidth);
 			}
 			translate(v = [((diameterTopTube + diameterLock) / 2)+ thickness, (-1) * (lengthTopTube / 2), 0]) {
 				rotate(a = [180, 0, 0]) {
 					difference() {
 						translate(v = [0, 0, (-1) * (thickness / 2)]) {
-							carveInnerHalfRoundTube(diameterLock, thickness);
+							// change
+							carveInnerHalfRoundTube(diameterLock, thickness, LockAdditionalSlotWidth);
 						}
 					}
 				}
@@ -634,11 +653,40 @@ module bottomPartPlain
 }
 
 // Modules
-module tube(height, diameter, thickness) {
-	difference() {
-		cylinder(h = height, r = ((diameter / 2) + thickness));
-		translate(v = [0, 0, -1]) {
-			cylinder(h = height + 2, r = diameter / 2);
+module tube(height, diameter, thickness, lockAdditionalSlotWidth = 0) {
+	if (lockAdditionalSlotWidth == 0) {
+		difference() {
+			cylinder(h = height, r = ((diameter / 2) + thickness));
+			translate(v = [0, 0, -1]) {
+				cylinder(h = height + 2, r = diameter / 2);
+			}
+		}
+	} else {
+		difference() {
+			union() {
+				translate([0,-(lockAdditionalSlotWidth / 2),0]) {
+					cylinder(h = height, r = ((diameter / 2) + thickness));
+				}
+				translate([-((diameter / 2) + thickness),-(lockAdditionalSlotWidth/2),]) {
+					cube([diameter + 2 * thickness, lockAdditionalSlotWidth, height]);
+				}
+				translate([0,lockAdditionalSlotWidth / 2,0]) {
+					cylinder(h = height, r = (diameter / 2) + thickness);
+				}
+			}
+			translate(v = [0, 0, -1]) {
+				union() {
+					translate([0,-(lockAdditionalSlotWidth / 2),0]) {
+						cylinder(h = height, r = (diameter / 2));
+					}
+					translate([-(diameter / 2),-(lockAdditionalSlotWidth/2),0]) {
+						cube([diameter, lockAdditionalSlotWidth, height]);
+					}
+					translate([0,lockAdditionalSlotWidth / 2,0]) {
+						cylinder(h = height, r = (diameter / 2));
+					}
+				}
+			}
 		}
 	}
 }
@@ -881,21 +929,21 @@ module topPart1(lengthTopTube, diameterTopTube, diameterLock, screwBarWidth, she
 					rotate(a = [90, 0, 0]) {
 						union() {
 							difference() {
-								carveRing(diameterLock, thickness);
+								carveRing(diameterLock, thickness, LockAdditionalSlotWidth);
 								translate(v = [0, 0, 0]) {
 									translate(v = [(-1) * ((diameterLock + thickness) / 2), 0, 0]) {
-										cube([thickness, diameterLock + thickness + 2, ((thickness + 2))], true);
+										cube([thickness, diameterLock + thickness + LockAdditionalSlotWidth + 2, ((thickness + 2))], true);
 									}
-									translate(v = [(-1) * ((diameterLock + thickness) / 2), (diameterLock + thickness) / 2, 0]) {
+									translate(v = [(-1) * ((diameterLock + thickness) / 2), (diameterLock + LockAdditionalSlotWidth + thickness) / 2, 0]) {
 										cube([diameterLock + thickness + 4, thickness, ((thickness + 2))], true);
 									}
-									translate(v = [(-1) * ((diameterLock + thickness) / 2), (-1) * (diameterLock + thickness) / 2, 0]) {
+									translate(v = [(-1) * ((diameterLock + thickness) / 2), (-1) * (diameterLock + LockAdditionalSlotWidth + thickness) / 2, 0]) {
 										cube([diameterLock + thickness + 4, thickness, ((thickness + 2))], true);
 									}
 								}
 							}
 							translate(v = [screwBarWidth, 0, (thickness / 2) + 1]) {
-								cube([diameterLock, diameterLock + thickness + 2, thickness + 4], true);
+								cube([diameterLock, diameterLock + LockAdditionalSlotWidth + thickness + 2, thickness + 4], true);
 							}
 						}
 					}
@@ -917,15 +965,31 @@ module bottomPart1(lengthTopTube, diameterTopTube, lengthLock, diameterLock, scr
 	// -- Lock Tube
 					translate(v = [((diameterTopTube + diameterLock) / 2) + thickness, lengthLock + (offset / 2), lengthTopTube / 2]) {
 						rotate(a = [90, 0, 0]) {
-							tube(lengthLock, diameterLock, thickness);
+							tube(lengthLock, diameterLock, thickness, LockAdditionalSlotWidth);
 						}
 					}
 				}
 	// -- Hole for Lock Tube
 				translate(v = [((diameterTopTube + diameterLock) / 2) + thickness, lengthLock + 1 + (offset / 2), lengthTopTube / 2]) {
+					if(LockAdditionalSlotWidth == 0) {
 						rotate(a = [90, 0, 0]) {
 							cylinder(r = diameterLock / 2, h = lengthLock + 2);
 						}
+					} else {
+						union() {
+							rotate(a = [90, 0, 0]) {
+								translate([0,-(LockAdditionalSlotWidth / 2),0]) {
+									cylinder(r = diameterLock / 2, h = lengthLock + 2);
+								}
+								translate([-((diameterLock / 2)),-(LockAdditionalSlotWidth/2),]) {
+									cube([diameterLock, LockAdditionalSlotWidth, lengthLock + 2]);
+								}
+								translate([0,LockAdditionalSlotWidth / 2,0]) {
+									cylinder(r = diameterLock / 2, h = lengthLock + 2);
+								}
+							}
+						}
+					}
 				}
 			}
 		}
@@ -967,12 +1031,52 @@ module lockBracing(diameterTopTube, lengthLock, thickness, offset) {
 	}
 }
 
-module carveRoundTube(diameter, thickness) {
-	difference() {
-		cylinder(h = (thickness / 2) + 1, r = ((diameter / 2) + thickness) + 1);
-		rotate_extrude() {
-			translate(v = [((diameter  + thickness) / 2), 0, 0]) {
-				circle(r = (thickness / 2));
+module carveRoundTube(diameter, thickness, lockAdditionalSlotWidth = 0) {
+	if (lockAdditionalSlotWidth == 0) {
+		difference() {
+			cylinder(h = (thickness / 2) + 1, r = ((diameter / 2) + thickness) + 1);
+			rotate_extrude() {
+				translate(v = [((diameter  + thickness) / 2), 0, 0]) {
+					circle(r = (thickness / 2));
+				}
+			}
+		}
+	} else {
+		difference() {
+			union() {
+				translate([0,-(lockAdditionalSlotWidth / 2),0]) {
+					cylinder(h = (thickness / 2) + 1, r = ((diameter / 2) + thickness) + 1);
+				}
+				translate([-((diameter / 2) + thickness) -1,-(lockAdditionalSlotWidth/2),]) {
+					cube([diameter + 2 * thickness + 2, lockAdditionalSlotWidth, thickness / 2 + 1]);
+				}
+				translate([0,(lockAdditionalSlotWidth / 2),0]) {
+					cylinder(h = (thickness / 2) + 1, r = ((diameter / 2) + thickness) + 1);
+				}
+			}
+			translate([0,-(lockAdditionalSlotWidth / 2),0]) {
+				rotate_extrude(angle=-180) {
+					translate(v = [((diameter  + thickness) / 2), 0, 0]) {
+						circle(r = (thickness / 2));
+					}
+				}
+			}
+			translate([0,(lockAdditionalSlotWidth / 2),0]) {
+				rotate_extrude(angle=180) {
+					translate(v = [((diameter  + thickness) / 2), 0, 0]) {
+						circle(r = (thickness / 2));
+					}
+				}
+			}
+			translate([(diameter + thickness) / 2, lockAdditionalSlotWidth / 2,0]) {
+				rotate([90,0,0]) {
+					cylinder(h=lockAdditionalSlotWidth, d=thickness);
+				}
+			}
+			translate([-(diameter + thickness) / 2, lockAdditionalSlotWidth / 2,0]) {
+				rotate([90,0,0]) {
+					cylinder(h=lockAdditionalSlotWidth, d=thickness);
+				}
 			}
 		}
 	}
@@ -994,15 +1098,71 @@ module carveHalfRoundTube(diameter, thickness) {
 	}
 }
 
-module carveInnerHalfRoundTube(diameter, thickness) {
-	difference() {
-		cylinder(h = (thickness / 2) + 1, r = ((diameter / 2) + thickness) + 1);
-		rotate_extrude() {
-			translate(v = [((diameter  + thickness) / 2), 0, 0]) {
-				union() {
-					circle(r = (thickness / 2));
-					translate(v = [0,(-1)*(thickness / 2),0]) {
-						square([thickness + 1, thickness]);
+module carveInnerHalfRoundTube(diameter, thickness, lockAdditionalSlotWidth = 0) {
+	if (lockAdditionalSlotWidth == 0) {
+		difference() {
+			cylinder(h = (thickness / 2) + 1, r = ((diameter / 2) + thickness) + 1);
+			rotate_extrude() {
+				translate(v = [((diameter  + thickness) / 2), 0, 0]) {
+					union() {
+						circle(r = (thickness / 2));
+						translate(v = [0,(-1)*(thickness / 2),0]) {
+							square([thickness + 1, thickness]);
+						}
+					}
+				}
+			}
+		}
+	} else {
+		difference() {
+			union() {
+				translate([0,-(lockAdditionalSlotWidth / 2),0]) {
+					cylinder(h = (thickness / 2) + 1, r = ((diameter / 2) + thickness) + 1);
+				}
+				translate([-((diameter / 2) + thickness) -1,-(lockAdditionalSlotWidth/2),]) {
+					cube([diameter + 2 * thickness + 2, lockAdditionalSlotWidth, thickness / 2 + 1]);
+				}
+				translate([0,(lockAdditionalSlotWidth / 2),0]) {
+					cylinder(h = (thickness / 2) + 1, r = ((diameter / 2) + thickness) + 1);
+				}
+			}
+			translate([0,-(lockAdditionalSlotWidth / 2),0]) {
+				rotate_extrude(angle=-180) {
+					translate(v = [((diameter  + thickness) / 2), 0, 0]) {
+						union() {
+							circle(r = (thickness / 2));
+							translate(v = [0,(-1)*(thickness / 2),0]) {
+								square([thickness + 1, thickness]);
+							}
+						}
+					}
+				}
+			}
+			translate([0,(lockAdditionalSlotWidth / 2),0]) {
+				rotate_extrude(angle=180) {
+					translate(v = [((diameter  + thickness) / 2), 0, 0]) {
+						union() {
+							circle(r = (thickness / 2));
+							translate(v = [0,(-1)*(thickness / 2),0]) {
+								square([thickness + 1, thickness]);
+							}
+						}
+					}
+				}
+			}
+			translate([(diameter + thickness) / 2, lockAdditionalSlotWidth / 2,0]) {
+				rotate([90,0,0]) {
+					cylinder(h=lockAdditionalSlotWidth, d=thickness);
+					translate([0,-(thickness / 2),0]) {
+						cube([thickness, thickness, lockAdditionalSlotWidth]);
+					}
+				}
+			}
+			translate([-(diameter + thickness) / 2, lockAdditionalSlotWidth / 2,0]) {
+				rotate([90,0,0]) {
+					cylinder(h=lockAdditionalSlotWidth, d=thickness);
+					translate([-thickness,-(thickness / 2),0]) {
+						cube([thickness, thickness, lockAdditionalSlotWidth]);
 					}
 				}
 			}
@@ -1010,12 +1170,52 @@ module carveInnerHalfRoundTube(diameter, thickness) {
 	}
 }
 
-module carveRing(diameter, thickness) {
-	difference() {
-		cylinder(h = thickness + 2, r = ((diameter + thickness) / 2));
-		rotate_extrude() {
-			translate(v = [((diameter + thickness) / 2), (thickness / 2) + 1, 0]) {
-				circle(r = (thickness / 2));
+module carveRing(diameter, thickness, lockAdditionalSlotWidth = 0) {
+	if (lockAdditionalSlotWidth == 0) {
+		difference() {
+			cylinder(h = thickness + 2, r = ((diameter + thickness) / 2));
+			rotate_extrude() {
+				translate(v = [((diameter + thickness) / 2), (thickness / 2) + 1, 0]) {
+					circle(r = (thickness / 2));
+				}
+			}
+		}
+	} else {
+		difference() {
+			union() {
+				translate([0,-(lockAdditionalSlotWidth / 2),0]) {
+					cylinder(h = thickness + 2, r = ((diameter + thickness) / 2));
+				}
+				translate([-(diameter + thickness) / 2,-(lockAdditionalSlotWidth/2),]) {
+					cube([diameter + thickness, lockAdditionalSlotWidth, thickness + 2]);
+				}
+				translate([0,(lockAdditionalSlotWidth / 2),0]) {
+					cylinder(h = thickness + 2, r = ((diameter + thickness) / 2));
+				}
+			}
+			translate([0,-(lockAdditionalSlotWidth / 2),0]) {
+				rotate_extrude(angle=-180) {
+				translate(v = [((diameter + thickness) / 2), (thickness / 2) + 1, 0]) {
+						circle(r = (thickness / 2));
+					}
+				}
+			}
+			translate([0,(lockAdditionalSlotWidth / 2),0]) {
+				rotate_extrude(angle=180) {
+				translate(v = [((diameter + thickness) / 2), (thickness / 2) + 1, 0]) {
+						circle(r = (thickness / 2));
+					}
+				}
+			}
+			translate([(diameter + thickness) / 2, lockAdditionalSlotWidth / 2, (thickness / 2) + 1]) {
+				rotate([90,0,0]) {
+					cylinder(h=lockAdditionalSlotWidth, d=thickness);
+				}
+			}
+			translate([-(diameter + thickness) / 2, lockAdditionalSlotWidth / 2, (thickness / 2) + 1]) {
+				rotate([90,0,0]) {
+					cylinder(h=lockAdditionalSlotWidth, d=thickness);
+				}
 			}
 		}
 	}
@@ -1137,6 +1337,6 @@ module hexagon(size, height) {
 // Internal functions
 function shellDiameter(nutDiameter, screwDiameter) = max(nutDiameter, screwDiameter);
 
-function lengthTopTube(diameterLock, shellDiameter, thickness) = diameterLock + (2 * shellDiameter) + (3 * thickness);
+function lengthTopTube(diameterLock, shellDiameter, thickness, lockAdditionalSlotWidth) = diameterLock + (2 * shellDiameter) + (3 * thickness) + lockAdditionalSlotWidth;
 
 function screwBarWidth(shellDiameter, thickness) = shellDiameter + (thickness / 2);
