@@ -54,7 +54,7 @@ topCable3Height = 0; // [0:0.01:100]
 topCable3Angle = -15; // [-90:0.01:90]
 
 bottomCable1Width = 5; // [0:0.01:100]
-bottomCable1Height = 7; // [0.01:100]
+bottomCable1Height = 7; // [0:0.01:100]
 bottomCable1Angle = 0; // [-90:0.01:90]
 bottomCable2Width = 0; // [0:0.01:100]
 bottomCable2Height = 0; // [0:0.01:100]
@@ -635,14 +635,12 @@ module bottomPartPlain
 				}
 			}
 			translate(v = [((diameterTopTube + diameterLock) / 2)+ thickness, (-1) * (lengthTopTube / 2), (lengthLock - (thickness / 2))]) {
-				// change
 				carveInnerHalfRoundTube(diameterLock, thickness, LockAdditionalSlotWidth);
 			}
 			translate(v = [((diameterTopTube + diameterLock) / 2)+ thickness, (-1) * (lengthTopTube / 2), 0]) {
 				rotate(a = [180, 0, 0]) {
 					difference() {
 						translate(v = [0, 0, (-1) * (thickness / 2)]) {
-							// change
 							carveInnerHalfRoundTube(diameterLock, thickness, LockAdditionalSlotWidth);
 						}
 					}
@@ -1150,19 +1148,19 @@ module carveInnerHalfRoundTube(diameter, thickness, lockAdditionalSlotWidth = 0)
 					}
 				}
 			}
-			translate([(diameter + thickness) / 2, lockAdditionalSlotWidth / 2,0]) {
+			translate([(diameter + thickness) / 2, lockAdditionalSlotWidth / 2 + 1,0]) {
 				rotate([90,0,0]) {
-					cylinder(h=lockAdditionalSlotWidth, d=thickness);
-					translate([0,-(thickness / 2),0]) {
-						cube([thickness, thickness, lockAdditionalSlotWidth]);
+					cylinder(h=lockAdditionalSlotWidth + 2, d=thickness);
+					translate([0,-(thickness / 2),-1]) {
+						cube([thickness, thickness, lockAdditionalSlotWidth + 4]);
 					}
 				}
 			}
-			translate([-(diameter + thickness) / 2, lockAdditionalSlotWidth / 2,0]) {
+			translate([-(diameter + thickness) / 2, lockAdditionalSlotWidth / 2 + 1,0]) {
 				rotate([90,0,0]) {
-					cylinder(h=lockAdditionalSlotWidth, d=thickness);
-					translate([-thickness,-(thickness / 2),0]) {
-						cube([thickness, thickness, lockAdditionalSlotWidth]);
+					cylinder(h=lockAdditionalSlotWidth + 2, d=thickness);
+					translate([-thickness,-(thickness / 2),-1]) {
+						cube([thickness, thickness, lockAdditionalSlotWidth + 4]);
 					}
 				}
 			}
