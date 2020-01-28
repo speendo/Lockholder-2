@@ -70,6 +70,7 @@ if (part == 1) {
 		diameterTopTube = TopTubeDiameter,
 		lengthLock = LocktubeLength,
 		diameterLock = LockDiameter,
+		lockAdditionalSlotWidth = LockAdditionalSlotWidth,
 
 		nutDiameter = NutDiameter,
 		screwDiameter = ScrewHeadDiameter,
@@ -104,6 +105,7 @@ if (part == 1) {
 		diameterTopTube = TopTubeDiameter,
 		lengthLock = LocktubeLength,
 		diameterLock = LockDiameter,
+		lockAdditionalSlotWidth = LockAdditionalSlotWidth,
 
 		nutDiameter = NutDiameter,
 		screwDiameter = ScrewHeadDiameter,
@@ -137,6 +139,7 @@ if (part == 1) {
 	topPart(
 		diameterTopTube = TopTubeDiameter,
 		diameterLock = LockDiameter,
+		lockAdditionalSlotWidth = LockAdditionalSlotWidth,
 
 		nutDiameter = NutDiameter,
 		screwDiameter = ScrewHeadDiameter,
@@ -161,6 +164,7 @@ if (part == 1) {
 		diameterTopTube = TopTubeDiameter,
 		lengthLock = LocktubeLength,
 		diameterLock = LockDiameter,
+		lockAdditionalSlotWidth = LockAdditionalSlotWidth,
 
 		nutDiameter = NutDiameter,
 		screwDiameter = ScrewHeadDiameter,
@@ -185,6 +189,7 @@ if (part == 1) {
 		diameterTopTube = TopTubeDiameter,
 		lengthLock = LocktubeLength,
 		diameterLock = LockDiameter,
+		lockAdditionalSlotWidth = LockAdditionalSlotWidth,
 
 		nutDiameter = NutDiameter,
 		screwDiameter = ScrewHeadDiameter,
@@ -219,6 +224,7 @@ if (part == 1) {
 		diameterTopTube = TopTubeDiameter,
 		lengthLock = LocktubeLength,
 		diameterLock = LockDiameter,
+		lockAdditionalSlotWidth = LockAdditionalSlotWidth,
 
 		nutDiameter = NutDiameter,
 		screwDiameter = ScrewHeadDiameter,
@@ -257,8 +263,8 @@ module lockHolderSet
 (
 	diameterTopTube = 30,
 	lengthLock = 50,
-	lockAdditionalSlotWidth = 0,
 	diameterLock = 15,
+	lockAdditionalSlotWidth = 0,
 
 	nutDiameter = 10,
 	screwDiameter = 10,
@@ -294,12 +300,12 @@ module lockHolderSet
 	screwBarWidth = screwBarWidth(shellDiameter, thickness);
 
 	translate(v = [(diameterTopTube / 2) + screwBarWidth + (1.5 * thickness), 0, 0]) {
-		topPart(diameterTopTube, diameterLock, nutDiameter, screwDiameter, threadDiameter, thickness, offset, screwOffsetShare, topCable1Width, topCable1Height, topCable1Angle, topCable2Width, topCable2Height, topCable2Angle, topCable3Width, topCable3Height, topCable3Angle);
+		topPart(diameterTopTube, diameterLock, lockAdditionalSlotWidth, nutDiameter, screwDiameter, threadDiameter, thickness, offset, screwOffsetShare, topCable1Width, topCable1Height, topCable1Angle, topCable2Width, topCable2Height, topCable2Angle, topCable3Width, topCable3Height, topCable3Angle);
 	}
 
 	translate(v = [(-1) * ((diameterTopTube / 2) + screwBarWidth + (1.5 * thickness)), 0, 0]) {
 		rotate(a = [0, 0, 180]) {
-			bottomPart(diameterTopTube, lengthLock, diameterLock, nutDiameter, screwDiameter, threadDiameter, thickness, offset, screwOffsetShare, bottomCable1Width, bottomCable1Height, bottomCable1Angle, bottomCable2Width, bottomCable2Height, bottomCable2Angle, bottomCable3Width, bottomCable3Height, bottomCable3Angle);
+			bottomPart(diameterTopTube, lengthLock, diameterLock, lockAdditionalSlotWidth, nutDiameter, screwDiameter, threadDiameter, thickness, offset, screwOffsetShare, bottomCable1Width, bottomCable1Height, bottomCable1Angle, bottomCable2Width, bottomCable2Height, bottomCable2Angle, bottomCable3Width, bottomCable3Height, bottomCable3Angle);
 		}
 	}
 }
@@ -309,8 +315,8 @@ module completeLockHolderSet
 (
 	diameterTopTube = 30,
 	lengthLock = 50,
-	lockAdditionalSlotWidth = 0,
 	diameterLock = 15,
+	lockAdditionalSlotWidth = 0,
 
 	nutDiameter = 10,
 	screwDiameter = 10,
@@ -346,11 +352,11 @@ module completeLockHolderSet
 	screwBarWidth = screwBarWidth(shellDiameter, thickness);
 
 	translate(v = [0, (lengthTopTube + thickness) / 2, 0]) {
-		lockHolderSet(diameterTopTube, lengthLock, diameterLock, nutDiameter, screwDiameter, threadDiameter, thickness, offset, screwOffsetShare, topCable1Width,	topCable1Height, topCable1Angle, topCable2Width, topCable2Height, topCable2Angle, topCable3Width, topCable3Height, topCable3Angle,	bottomCable1Width, bottomCable1Height, bottomCable1Angle, bottomCable2Width, bottomCable2Height, bottomCable2Angle, bottomCable3Width, bottomCable3Height, bottomCable3Angle);
+		lockHolderSet(diameterTopTube, lengthLock, diameterLock, lockAdditionalSlotWidth, nutDiameter, screwDiameter, threadDiameter, thickness, offset, screwOffsetShare, topCable1Width,	topCable1Height, topCable1Angle, topCable2Width, topCable2Height, topCable2Angle, topCable3Width, topCable3Height, topCable3Angle,	bottomCable1Width, bottomCable1Height, bottomCable1Angle, bottomCable2Width, bottomCable2Height, bottomCable2Angle, bottomCable3Width, bottomCable3Height, bottomCable3Angle);
 	}
 
 	translate(v = [0, (-1) * ((lengthTopTube + thickness) / 2), 0]) {
-		lockHolderSet(diameterTopTube, lengthLock, diameterLock, nutDiameter, screwDiameter, threadDiameter, thickness, offset, screwOffsetShare, topCable1Width,	topCable1Height, topCable1Angle, topCable2Width, topCable2Height, topCable2Angle, topCable3Width, topCable3Height, topCable3Angle,	bottomCable1Width, bottomCable1Height, bottomCable1Angle, bottomCable2Width, bottomCable2Height, bottomCable2Angle, bottomCable3Width, bottomCable3Height, bottomCable3Angle);
+		lockHolderSet(diameterTopTube, lengthLock, diameterLock, lockAdditionalSlotWidth, nutDiameter, screwDiameter, threadDiameter, thickness, offset, screwOffsetShare, topCable1Width,	topCable1Height, topCable1Angle, topCable2Width, topCable2Height, topCable2Angle, topCable3Width, topCable3Height, topCable3Angle,	bottomCable1Width, bottomCable1Height, bottomCable1Angle, bottomCable2Width, bottomCable2Height, bottomCable2Angle, bottomCable3Width, bottomCable3Height, bottomCable3Angle);
 	}
 }
 
@@ -359,8 +365,8 @@ module assembledLockHolderSet
 (
 	diameterTopTube = 30,
 	lengthLock = 50,
-	lockAdditionalSlotWidth = 0,
 	diameterLock = 15,
+	lockAdditionalSlotWidth = 0,
 
 	nutDiameter = 10,
 	screwDiameter = 10,
@@ -396,12 +402,12 @@ module assembledLockHolderSet
 	screwBarWidth = screwBarWidth(shellDiameter, thickness);
 
 	translate([0,0,offset/2]) {
-		topPart(diameterTopTube, diameterLock, nutDiameter, screwDiameter, threadDiameter, thickness, offset, screwOffsetShare, topCable1Width, topCable1Height, topCable1Angle, topCable2Width, topCable2Height, topCable2Angle, topCable3Width, topCable3Height, topCable3Angle);
+		topPart(diameterTopTube, diameterLock, lockAdditionalSlotWidth, nutDiameter, screwDiameter, threadDiameter, thickness, offset, screwOffsetShare, topCable1Width, topCable1Height, topCable1Angle, topCable2Width, topCable2Height, topCable2Angle, topCable3Width, topCable3Height, topCable3Angle);
 	}
 	
 	translate([0,0,-offset/2]) {
 		rotate(a = [0, 180, 180]) {
-			bottomPart(diameterTopTube, lengthLock, diameterLock, nutDiameter, screwDiameter, threadDiameter, thickness, offset, screwOffsetShare, bottomCable1Width, bottomCable1Height, bottomCable1Angle, bottomCable2Width, bottomCable2Height, bottomCable2Angle, bottomCable3Width, bottomCable3Height, bottomCable3Angle);
+			bottomPart(diameterTopTube, lengthLock, diameterLock, lockAdditionalSlotWidth, nutDiameter, screwDiameter, threadDiameter, thickness, offset, screwOffsetShare, bottomCable1Width, bottomCable1Height, bottomCable1Angle, bottomCable2Width, bottomCable2Height, bottomCable2Angle, bottomCable3Width, bottomCable3Height, bottomCable3Angle);
 		}
 	}
 }
@@ -412,8 +418,8 @@ module assembledLockHolderSet
 module topPart
 (
 	diameterTopTube = 30,
-	lockAdditionalSlotWidth = 0,
 	diameterLock = 15,
+	lockAdditionalSlotWidth = 0,
 
 	nutDiameter = 10,
 	screwDiameter = 10,
@@ -481,8 +487,8 @@ module bottomPart
 (
 	diameterTopTube = 30,
 	lengthLock = 50,
-	lockAdditionalSlotWidth = 0,
 	diameterLock = 15,
+	lockAdditionalSlotWidth = 0,
 
 	nutDiameter = 10,
 	screwDiameter = 10,
@@ -961,9 +967,6 @@ module topPart1(lengthTopTube, diameterTopTube, diameterLock, lockAdditionalSlot
 }
 
 module bottomPart1(lengthTopTube, diameterTopTube, lengthLock, diameterLock, lockAdditionalSlotWidth, screwBarWidth, shellDiameter, nutDiameter, threadDiameter, thickness, offset, screwOffsetShare) {
-	
-	echo(lockAdditionalSlotWidth);
-	
 	translate(v = [0, 0, (-1) * (offset / 2)]) {
 		rotate(a = [90, 0, 0]) {
 			difference() {
