@@ -614,11 +614,13 @@ module topPartPlain
 	
 	translate(v = [0, lengthTopTube / 2, 0]) {
 		topPart1(lengthTopTube, diameterTopTube, diameterLock, lockAdditionalSlotWidth, shellDiameter, screwDiameter, threadDiameter, thickness, offset, screwOffsetShare, fdmOpt);
-		translate(v = [0, (-1) * (shellDiameter + (thickness / 2)), 0]) {
-			doubleStabilityBracing(diameterTopTube, screwBarWidth, thickness, offset);
-		}
-		translate(v = [0, (-1) * (lengthTopTube - (shellDiameter + (1.5 * thickness))), 0]) {
-			doubleStabilityBracing(diameterTopTube, screwBarWidth, thickness, offset);
+		if (!fdmOpt) {
+			translate(v = [0, (-1) * (shellDiameter + (thickness / 2)), 0]) {
+				doubleStabilityBracing(diameterTopTube, screwBarWidth, thickness, offset);
+			}
+			translate(v = [0, (-1) * (lengthTopTube - (shellDiameter + (1.5 * thickness))), 0]) {
+				doubleStabilityBracing(diameterTopTube, screwBarWidth, thickness, offset);
+			}
 		}
 	}
 }
@@ -688,12 +690,13 @@ module topPart1(lengthTopTube, diameterTopTube, diameterLock, lockAdditionalSlot
 	translate(v = [0, 0, (-1) * (offset / 2)]) {
 		rotate(a = [90, 0, 0]) {
 			difference() {
-				difference() {
-						union() {
-							halfTube(lengthTopTube, diameterTopTube, thickness, offset);
-							screwBar(shellDiameter, screwDiameter, lengthTopTube, diameterTopTube, thickness, offset, screwOffsetShare);
-						}
-					screwHeadHolesComplete(shellDiameter, screwDiameter, threadDiameter, diameterTopTube + (2 * thickness), lengthTopTube, thickness, offset, screwOffsetShare);
+				union() {
+					halfTube(lengthTopTube, diameterTopTube, thickness, offset);
+					if (fdmOpt) {
+						fdmOptBracingTop(lengthTopTube, diameterTopTube, shellDiameter, offset, thickness);
+					} else {
+						screwBar(shellDiameter, screwDiameter, lengthTopTube, diameterTopTube, thickness, offset, screwOffsetShare);
+					}
 				}
 	// -- Hole for Lock Tube
 				translate(v = [lockTubeXOffset, thickness + (offset / 2) + 1, lengthTopTube / 2]) {
@@ -701,14 +704,39 @@ module topPart1(lengthTopTube, diameterTopTube, diameterLock, lockAdditionalSlot
 						union() {
 							difference() {
 								carveRing(diameterLock, thickness, lockAdditionalSlotWidth);
-								translate(v = [(-1) * ((diameterLock + thickness) / 2), 0, 0]) {
-									cube([thickness, diameterLock + thickness + lockAdditionalSlotWidth + 2, ((thickness + 2))], true);
+								if (fdmOpt) {
+									translate(v = [(-1) * (thickness / 2), 0, 0]) {
+										cube([diameterLock + 1, diameterLock + thickness + lockAdditionalSlotWidth + 2, ((thickness + 2))], true);
+									}
+								} else {
+									translate(v = [(-1) * ((diameterLock + thickness) / 2), 0, 0]) {
+										cube([thickness, diameterLock + thickness + lockAdditionalSlotWidth + 2, ((thickness + 2))], true);
+									}
+									translate(v = [(-1) * (((diameterLock / 2) + thickness) / 2), (diameterLock + lockAdditionalSlotWidth + thickness) / 2, 0]) {
+										cube([(diameterLock / 2) + thickness + 4, thickness, ((thickness + 2))], true);
+									}
+									translate(v = [(-1) * (((diameterLock / 2) + thickness) / 2), (-1) * (diameterLock + lockAdditionalSlotWidth + thickness) / 2, 0]) {
+										cube([(diameterLock / 2) + thickness + 4, thickness, ((thickness + 2))], true);
+									}
 								}
-								translate(v = [(-1) * (((diameterLock / 2) + thickness) / 2), (diameterLock + lockAdditionalSlotWidth + thickness) / 2, 0]) {
-									cube([(diameterLock / 2) + thickness + 4, thickness, ((thickness + 2))], true);
-								}
-								translate(v = [(-1) * (((diameterLock / 2) + thickness) / 2), (-1) * (diameterLock + lockAdditionalSlotWidth + thickness) / 2, 0]) {
-									cube([(diameterLock / 2) + thickness + 4, thickness, ((thickness + 2))], true);
+							}
+							if (fdmOpt) {
+								translate(v = [0,0,-(((diameterTopTube - offset) / 2))]) {
+									if(lockAdditionalSlotWidth == 0) {
+										cylinder(r = diameterLock / 2, h = ((diameterTopTube - offset) / 2) + thickness + 2);
+									} else {
+										union() {
+											translate([0,-(lockAdditionalSlotWidth / 2),0]) {
+												cylinder(r = diameterLock / 2, h = ((diameterTopTube - offset) / 2) + thickness + 2);
+											}
+											translate([-((diameterLock / 2)),-(lockAdditionalSlotWidth/2),]) {
+												cube([diameterLock, lockAdditionalSlotWidth, ((diameterTopTube - offset) / 2) + thickness + 2]);
+											}
+											translate([0,lockAdditionalSlotWidth / 2,0]) {
+												cylinder(r = diameterLock / 2, h = ((diameterTopTube - offset) / 2) + thickness + 2);
+											}
+										}
+									}
 								}
 							}
 						}
@@ -717,6 +745,8 @@ module topPart1(lengthTopTube, diameterTopTube, diameterLock, lockAdditionalSlot
 						}
 					}
 				}
+	// -- Screw Holes
+				screwHeadHolesComplete(shellDiameter, screwDiameter, threadDiameter, diameterTopTube, lengthTopTube, thickness, offset, screwOffsetShare);
 			}
 		}
 	}
@@ -731,10 +761,10 @@ module bottomPart1(lengthTopTube, diameterTopTube, lengthLock, diameterLock, loc
 			difference() {
 				union() {
 					halfTube(lengthTopTube, diameterTopTube, thickness, offset);
-					if (!fdmOpt) {
-						screwBar(shellDiameter, nutDiameter, lengthTopTube, diameterTopTube, thickness, offset, screwOffsetShare);
+					if (fdmOpt) {
+						fdmOptBracingBottom(lockTubeXOffset, lengthTopTube, lengthLock, diameterTopTube, shellDiameter, offset, thickness);
 					} else {
-						fdmOptBracing(lockTubeXOffset, lengthTopTube, lengthLock, diameterTopTube, shellDiameter, offset, thickness);
+						screwBar(shellDiameter, nutDiameter, lengthTopTube, diameterTopTube, thickness, offset, screwOffsetShare);
 					}
 	// -- Lock Tube
 					translate(v = [lockTubeXOffset, lengthLock + (offset / 2), lengthTopTube / 2]) {
@@ -777,8 +807,9 @@ module bottomPart1(lengthTopTube, diameterTopTube, lengthLock, diameterLock, loc
 						}
 					}
 				}
+	// -- Nut Holes
 				if (fdmOpt) {
-					nutHolesCompleteFdmOptT(shellDiameter, nutDiameter, threadDiameter, diameterLock, diameterTopTube + (2 * thickness), lengthTopTube, nutHeight, thickness, offset, screwOffsetShare);
+					nutHolesCompleteFdmOptT(shellDiameter, nutDiameter, threadDiameter, diameterTopTube, lengthTopTube, nutHeight, thickness, offset, screwOffsetShare);
 				} else {
 					nutHolesCompleteFdmOptF(shellDiameter, nutDiameter, threadDiameter, diameterTopTube + (2 * thickness), lengthTopTube, thickness, offset, screwOffsetShare);
 				}
@@ -905,7 +936,27 @@ module screwBar(shellDiameter, holeDiameter, lengthTopTube, diameterTopTube, thi
 	}
 }
 
-module fdmOptBracing(lockTubeXOffset, lengthTopTube, lengthLock, diameterTopTube, shellDiameter, offset, thickness) {
+module fdmOptBracingTop(lengthTopTube, diameterTopTube, shellDiameter, offset, thickness) {
+	sphRad = thickness / 2;
+	difference() {
+		hull() {
+			// Locktube Bottom
+			transDome((((diameterTopTube + shellDiameter) / 2) + thickness), sphRad + (offset / 2), (shellDiameter + thickness) / 2, r = (shellDiameter + thickness) / 2, h = thickness);
+			transDome((((diameterTopTube + shellDiameter) / 2) + thickness), sphRad + (offset / 2), lengthTopTube - ((shellDiameter + thickness) / 2), r = ((shellDiameter + thickness) / 2), h = thickness);
+			// TopTube Top
+			transSphere(0, (diameterTopTube / 2), thickness, thickness);
+			transSphere(0, (diameterTopTube / 2), lengthTopTube - thickness, thickness);
+			// Shell Bottom
+			transDome((-1) * (((diameterTopTube + shellDiameter) / 2) + thickness), sphRad + (offset / 2), (shellDiameter + thickness) / 2, r = (shellDiameter + thickness) / 2, h = thickness);
+			transDome((-1) * (((diameterTopTube + shellDiameter) / 2) + thickness), sphRad + (offset / 2), lengthTopTube - ((shellDiameter + thickness) / 2), r = ((shellDiameter + thickness) / 2), h = thickness);
+		}
+		translate(v = [0, 0, -1]) {
+			cylinder(r = diameterTopTube / 2, h = lengthTopTube + 2);
+		}
+	}
+}
+
+module fdmOptBracingBottom(lockTubeXOffset, lengthTopTube, lengthLock, diameterTopTube, shellDiameter, offset, thickness) {
 	sphRad = thickness / 2;
 	difference() {
 		hull() {
@@ -1001,7 +1052,7 @@ module makeSideNut(shellDiameter, nutDiameter, nutHeight, thickness, screwOffset
 }
 
 module makeNut(diameter, thickness, screwOffsetShare) {
-	translate(v = [0, (screwOffsetShare * thickness) + 1, 0]) {
+	translate(v = [0, (screwOffsetShare * thickness) + 1, 0]) { // warum + 1
 		rotate(a = [90, 0, 0]) {
 			translate(v = [0, 0, (-1) * (thickness / 2)]) {
 				hexagon(size = diameter, height = thickness + 2);
@@ -1010,20 +1061,20 @@ module makeNut(diameter, thickness, screwOffsetShare) {
 	}
 }
 
-module makeNutFdmOptT(diameter, diameterLock, thickness, screwOffsetShare) {
-	translate(v = [0, (screwOffsetShare * thickness) + 1, 0]) {
+module makeNutFdmOptT(diameter, diameterTopTube, thickness, screwOffsetShare) {
+	translate(v = [0, (screwOffsetShare * thickness) + 1, 0]) { // warum + 1
 		rotate(a = [90, 30, 0]) {
-			translate(v = [0, 0, (-1) * ((diameterLock / 4) + (thickness / 2))]) {
-				hexagon(size = diameter, height = (diameterLock / 2) + thickness + 2);
+			translate(v = [0, 0, (-1) * ((diameterTopTube / 4) + (thickness / 2))]) {
+				hexagon(size = diameter, height = (diameterTopTube / 2) + thickness + 2);
 			}
 		}
 	}
 }
 
-module screwHeadHole(diameter, thickness, screwOffsetShare) {
+module screwHeadHole(diameter, diameterTopTube, thickness, screwOffsetShare) {
 	translate(v = [0, (screwOffsetShare * thickness), 0]) {
 		rotate(a = [-90, 0, 0]) {
-			cylinder(r = diameter / 2, h = thickness + 2);
+			cylinder(r = diameter / 2, h = (diameterTopTube / 2) + thickness + 2);
 		}
 	}
 }
@@ -1052,7 +1103,7 @@ module positionShells(diameter, plateSizeX, plateSizeY, thickness, offset, screw
 	}
 }
 
-module positionNutsFdmOptT(shellDiameter, diameter, diameterLock, plateSizeX, plateSizeY, nutHeight, thickness, screwOffsetShare) {
+module positionNutsFdmOptT(shellDiameter, diameter, diameterTopTube, plateSizeX, plateSizeY, nutHeight, thickness, screwOffsetShare) {
 	translate(v = [(plateSizeX + shellDiameter) / 2, 0, ((shellDiameter + thickness) / 2)]) {
 		makeSideNut(shellDiameter, diameter, nutHeight, thickness, screwOffsetShare);
 	}
@@ -1062,10 +1113,10 @@ module positionNutsFdmOptT(shellDiameter, diameter, diameterLock, plateSizeX, pl
 		}
 	}
 	translate(v = [(-1) * ((plateSizeX + shellDiameter) / 2), 0, ((shellDiameter + thickness) / 2)]) {
-		makeNutFdmOptT(diameter, diameterLock, thickness, screwOffsetShare);
+		makeNutFdmOptT(diameter, diameterTopTube, thickness, screwOffsetShare);
 	}
 	translate(v = [(-1) * ((plateSizeX + shellDiameter) / 2), 0, plateSizeY - ((shellDiameter + thickness) / 2)]) {
-		makeNutFdmOptT(diameter, diameterLock, thickness, screwOffsetShare);
+		makeNutFdmOptT(diameter, diameterTopTube, thickness, screwOffsetShare);
 	}
 }
 
@@ -1084,18 +1135,18 @@ module positionNutsFdmOptF(shellDiameter, diameter, plateSizeX, plateSizeY, thic
 	}
 }
 
-module positionScrewHeadHoles(shellDiameter, diameter, plateSizeX, plateSizeY, thickness, screwOffsetShare) {
+module positionScrewHeadHoles(shellDiameter, diameter, diameterTopTube, plateSizeX, plateSizeY, thickness, screwOffsetShare) {
 	translate(v = [(plateSizeX + shellDiameter) / 2, 0, ((shellDiameter + thickness) / 2)]) {
-		screwHeadHole(diameter, thickness, screwOffsetShare);
+		screwHeadHole(diameter, diameterTopTube, thickness, screwOffsetShare);
 	}
 	translate(v = [(plateSizeX + shellDiameter) / 2, 0, plateSizeY - ((shellDiameter + thickness) / 2)]) {
-		screwHeadHole(diameter, thickness, screwOffsetShare);
+		screwHeadHole(diameter, diameterTopTube, thickness, screwOffsetShare);
 	}
 	translate(v = [(-1) * ((plateSizeX + shellDiameter) / 2), 0, ((shellDiameter + thickness) / 2)]) {
-		screwHeadHole(diameter, thickness, screwOffsetShare);
+		screwHeadHole(diameter, diameterTopTube, thickness, screwOffsetShare);
 	}
 	translate(v = [(-1) * ((plateSizeX + shellDiameter) / 2), 0, plateSizeY - ((shellDiameter + thickness) / 2)]) {
-		screwHeadHole(diameter, thickness, screwOffsetShare);
+		screwHeadHole(diameter, diameterTopTube, thickness, screwOffsetShare);
 	}
 }
 
@@ -1114,10 +1165,12 @@ module positionScrewHoles(shellDiameter, diameter, plateSizeX, plateSizeY, thick
 	}
 }
 
-module nutHolesCompleteFdmOptT(shellDiameter, nutDiameter, threadDiameter, diameterLock, plateSizeX, plateSizeY, nutHeight, thickness, offset, screwOffsetShare) {
+module nutHolesCompleteFdmOptT(shellDiameter, nutDiameter, threadDiameter, diameterTopTube, plateSizeY, nutHeight, thickness, offset, screwOffsetShare) {
+	plateSizeX = diameterTopTube + (2 * thickness);
+
 	translate(v = [0, offset / 2, 0]) {
 		union() {
-			positionNutsFdmOptT(shellDiameter, nutDiameter, diameterLock, plateSizeX, plateSizeY, nutHeight, thickness, screwOffsetShare);
+			positionNutsFdmOptT(shellDiameter, nutDiameter, diameterTopTube, plateSizeX, plateSizeY, nutHeight, thickness, screwOffsetShare);
 			positionScrewHoles(shellDiameter, threadDiameter, plateSizeX, plateSizeY, thickness, nutHeight);
 		}
 	}
@@ -1132,10 +1185,12 @@ module nutHolesCompleteFdmOptF(shellDiameter, nutDiameter, threadDiameter, plate
 	}
 }
 
-module screwHeadHolesComplete(shellDiameter, screwDiameter, threadDiameter, plateSizeX, plateSizeY, thickness, offset, screwOffsetShare) {
+module screwHeadHolesComplete(shellDiameter, screwDiameter, threadDiameter, diameterTopTube, plateSizeY, thickness, offset, screwOffsetShare) {
+	plateSizeX = diameterTopTube + (2 * thickness);
+
 	translate(v = [0, offset / 2, 0]) {
 		union() {
-			positionScrewHeadHoles(shellDiameter, screwDiameter, plateSizeX, plateSizeY, thickness, screwOffsetShare);
+			positionScrewHeadHoles(shellDiameter, screwDiameter, diameterTopTube, plateSizeX, plateSizeY, thickness, screwOffsetShare);
 			positionScrewHoles(shellDiameter, threadDiameter, plateSizeX, plateSizeY, thickness);
 		}
 	}
