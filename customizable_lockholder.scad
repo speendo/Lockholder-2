@@ -1041,7 +1041,7 @@ module makeShell(diameter, thickness, offset, screwOffsetShare) {
 }
 
 module makeSideNut(shellDiameter, nutDiameter, nutHeight, thickness, screwOffsetShare) {
-	translate(v = [0, (screwOffsetShare * thickness) + 1, 0]) {
+	translate(v = [0, (screwOffsetShare * thickness) + (nutHeight / 2), 0]) {
 		rotate(a = [90, 30, 0]) {
 			hexagon(size = nutDiameter, height = nutHeight);
 		}
@@ -1052,7 +1052,7 @@ module makeSideNut(shellDiameter, nutDiameter, nutHeight, thickness, screwOffset
 }
 
 module makeNut(diameter, thickness, screwOffsetShare) {
-	translate(v = [0, (screwOffsetShare * thickness) + 1, 0]) { // warum + 1
+	translate(v = [0, (screwOffsetShare * thickness) + 1, 0]) {
 		rotate(a = [90, 0, 0]) {
 			translate(v = [0, 0, (-1) * (thickness / 2)]) {
 				hexagon(size = diameter, height = thickness + 2);
@@ -1062,7 +1062,7 @@ module makeNut(diameter, thickness, screwOffsetShare) {
 }
 
 module makeNutFdmOptT(diameter, diameterTopTube, thickness, screwOffsetShare) {
-	translate(v = [0, (screwOffsetShare * thickness) + 1, 0]) { // warum + 1
+	translate(v = [0, (screwOffsetShare * thickness) + 1, 0]) {
 		rotate(a = [90, 30, 0]) {
 			translate(v = [0, 0, (-1) * ((diameterTopTube / 4) + (thickness / 2))]) {
 				hexagon(size = diameter, height = (diameterTopTube / 2) + thickness + 2);
