@@ -277,7 +277,7 @@ if (part == 1) {
 	);
 }
 
-// lockholder v 2.3
+// lockholder v 3.0
 
 // Functions
 // - Set of Top Part and Bottom Part
