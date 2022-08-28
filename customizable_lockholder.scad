@@ -1143,18 +1143,17 @@ module screwBar(shellDiameter, holeDiameter, lengthTopTube, diameterTopTube, thi
 }
 
 module fdmOptBracingTop(lengthTopTube, diameterTopTube, shellDiameter, offset, thickness) {
-	sphRad = thickness / 2;
 	difference() {
 		hull() {
 			// Locktube Bottom
-			transDome((((diameterTopTube + shellDiameter) / 2) + thickness), sphRad + (offset / 2), (shellDiameter + thickness) / 2, r = (shellDiameter + thickness) / 2, h = thickness);
-			transDome((((diameterTopTube + shellDiameter) / 2) + thickness), sphRad + (offset / 2), lengthTopTube - ((shellDiameter + thickness) / 2), r = ((shellDiameter + thickness) / 2), h = thickness);
+			transDome((((diameterTopTube + shellDiameter) / 2) + thickness), 0, (shellDiameter + thickness) / 2, r = (shellDiameter + thickness) / 2, h = thickness);
+			transDome((((diameterTopTube + shellDiameter) / 2) + thickness), 0, lengthTopTube - ((shellDiameter + thickness) / 2), r = ((shellDiameter + thickness) / 2), h = thickness);
 			// TopTube Top
 			transSphere(0, (diameterTopTube / 2), thickness, thickness);
 			transSphere(0, (diameterTopTube / 2), lengthTopTube - thickness, thickness);
 			// Shell Bottom
-			transDome((-1) * (((diameterTopTube + shellDiameter) / 2) + thickness), sphRad + (offset / 2), (shellDiameter + thickness) / 2, r = (shellDiameter + thickness) / 2, h = thickness);
-			transDome((-1) * (((diameterTopTube + shellDiameter) / 2) + thickness), sphRad + (offset / 2), lengthTopTube - ((shellDiameter + thickness) / 2), r = ((shellDiameter + thickness) / 2), h = thickness);
+			transDome((-1) * (((diameterTopTube + shellDiameter) / 2) + thickness), 0, (shellDiameter + thickness) / 2, r = (shellDiameter + thickness) / 2, h = thickness);
+			transDome((-1) * (((diameterTopTube + shellDiameter) / 2) + thickness), 0, lengthTopTube - ((shellDiameter + thickness) / 2), r = ((shellDiameter + thickness) / 2), h = thickness);
 		}
 		translate(v = [0, 0, -1]) {
 			cylinder(r = diameterTopTube / 2, h = lengthTopTube + 2);
@@ -1179,8 +1178,8 @@ module fdmOptBracingBottom(lockTubeXOffset, lengthTopTube, lengthLock, diameterT
 			transSphere(0, (diameterTopTube / 2), thickness, thickness);
 			transSphere(0, (diameterTopTube / 2), lengthTopTube - thickness, thickness);
 			// Shell Bottom
-			transDome((-1) * (((diameterTopTube + shellDiameter) / 2) + thickness), sphRad + (offset / 2), (shellDiameter + thickness) / 2, r = (shellDiameter + thickness) / 2, h = thickness);
-			transDome((-1) * (((diameterTopTube + shellDiameter) / 2) + thickness), sphRad + (offset / 2), lengthTopTube - ((shellDiameter + thickness) / 2), r = ((shellDiameter + thickness) / 2), h = thickness);
+			transDome((-1) * (((diameterTopTube + shellDiameter) / 2) + thickness), 0, (shellDiameter + thickness) / 2, r = (shellDiameter + thickness) / 2, h = thickness);
+			transDome((-1) * (((diameterTopTube + shellDiameter) / 2) + thickness), 0, lengthTopTube - ((shellDiameter + thickness) / 2), r = ((shellDiameter + thickness) / 2), h = thickness);
 		}
 		translate(v = [0, 0, -1]) {
 			cylinder(r = diameterTopTube / 2, h = lengthTopTube + 2);
@@ -1209,15 +1208,16 @@ module transCube(x, y, z, a) {
 }
 
 module transDome(x, y, z, r, h) {
+	cylinderHeight = max((h - r), 0);
 	translate(v = [x, y, z]) {
 		rotate(a = [90, 0, 0]) {
-			cylinder(r = r, h = (h - r));
+			cylinder(r = r, h = cylinderHeight);
 		}
 		difference() {
-			translate(v = [0, (h - r), 0]) {
+			translate(v = [0, cylinderHeight, 0]) {
 				sphere(r = r);
 			}
-			translate(v = [0, (h - r), 0]) {
+			translate(v = [0, cylinderHeight, 0]) {
 				rotate(a = [90, 0, 0]) {
 					cylinder(r = (r + 1), h = (r + 1));
 				}
@@ -1247,11 +1247,11 @@ module makeShell(diameter, thickness, offset, screwOffsetShare) {
 }
 
 module makeSideNut(shellDiameter, nutDiameter, nutHeight, thickness, screwOffsetShare) {
-	translate(v = [0, (screwOffsetShare * thickness) + (nutHeight / 2), 0]) {
+	translate(v = [0, (screwOffsetShare * thickness) + nutHeight, 0]) {
 		rotate(a = [90, 30, 0]) {
 			hexagon(size = nutDiameter, height = nutHeight);
 		}
-			translate([-(nutDiameter / 2),-(thickness / 2) - 1,-((shellDiameter / 2) + thickness + 1)]) {
+			translate([-(nutDiameter / 2),-(thickness / 2) - 1/2,-((shellDiameter / 2) + thickness + 1)]) {
 				cube([nutDiameter, nutHeight, (shellDiameter / 2) + thickness + 1]);
 			}
 	}
@@ -1310,10 +1310,10 @@ module positionShells(diameter, plateSizeX, plateSizeY, thickness, offset, screw
 }
 
 module positionNutsFdmOptT(shellDiameter, diameter, diameterTopTube, plateSizeX, plateSizeY, nutHeight, thickness, screwOffsetShare) {
-	translate(v = [(plateSizeX + shellDiameter) / 2, 0, ((shellDiameter + thickness) / 2)]) {
+	translate(v = [(plateSizeX + shellDiameter) / 2, -(nutHeight / 2), ((shellDiameter + thickness) / 2)]) {
 		makeSideNut(shellDiameter, diameter, nutHeight, thickness, screwOffsetShare);
 	}
-	translate(v = [(plateSizeX + shellDiameter) / 2, 0, plateSizeY - ((shellDiameter + thickness) / 2)]) {
+	translate(v = [(plateSizeX + shellDiameter) / 2, -(nutHeight / 2), plateSizeY - ((shellDiameter + thickness) / 2)]) {
 		mirror([0, 0, 1]) {
 			makeSideNut(shellDiameter, diameter, nutHeight, thickness, screwOffsetShare);
 		}
